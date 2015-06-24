@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 资产action -->
+
+	<bean id="assetAction" class="com.wonders.asset.web.action.AssetAction" scope="prototype">
+		<property name="assetRecordService" ref="assetRecordService"/>
+	</bean>
+	<bean id="sparePartsAction" class="com.wonders.asset.web.action.SparePartsAction" scope="prototype">
+		<property name="sparePartsService" ref="sparePartsService"/>
+		<property name="spareTypeService" ref="spareTypeService"/>
+		<property name="stationService" ref="stationService"/>
+	</bean>
+	
+	<bean id="assetTypeAction" class="com.wonders.asset.web.action.AssetTypeAction"/>
+	
+	<bean id="spareTypeAction" class="com.wonders.asset.web.action.SpareTypeAction"/>
+
+	<bean id="enterpriseAction" class="com.wonders.asset.web.action.EnterpriseAction" scope="prototype"/>
+
+	<bean id="equipmentAction" class="com.wonders.asset.web.action.EquipmentAction" scope="prototype"/>
+	
+	<bean id="assetPriceAction" class="com.wonders.asset.web.action.AssetPriceAction" scope="prototype"/>
+
+	<bean id="houseAssetAction" class="com.wonders.asset.web.action.HouseAssetAction" scope="prototype"/>
+
+    <!--assertInfo查询-->
+    <bean id="assetInfoApi" class="com.wonders.api.dto.AssetInfo"/>
+	
+	<!-- 线路action -->
+	<bean id="lineAction" class="com.wonders.asset.web.action.LineAction"/>
+	
+	<!-- 车站action -->
+	<bean id="stationAction" class="com.wonders.asset.web.action.StationAction"/>
+	
+	<!-- 使用单位、权属单位action -->
+	<bean id="organizationAction" class="com.wonders.asset.web.action.OrganizationAction"/>
+	
+	<!-- 维护部门action -->
+	<bean id="departmentAction" class="com.wonders.asset.web.action.DepartmentAction"/>
+	
+	<!-- 维护部门action -->
+	<bean id="projectAction" class="com.wonders.asset.web.action.ProjectAction"/>
+	
+	<!-- 日常维护action -->
+	<bean id="assetMaintenanceCostAction" class="com.wonders.asset.web.action.AssetMaintenanceCostAction"/>
+	
+	<!-- 大修改造action -->
+	<bean id="assetOverhaulAction" class="com.wonders.asset.web.action.AssetOverhaulAction"/>
+	
+	<!-- 对外接口action -->
+	<bean id="externalInterfaceAction" class="com.wonders.asset.web.action.ExternalInterfaceAction"/>
+
+
+
+    <!--资产调拨-->
+    <bean id="allocateAssetAction" class="com.wonders.asset.web.action.AllocateAssetAction">
+        <property name="allocateAssetService" ref="allocateAssetService"/>
+    </bean>
+    
+    <!--大修更新改造-->
+    <bean id="assetRecordAction" class="com.wonders.asset.web.action.AssetRecordAction">
+        <property name="assetRecordService" ref="assetRecordService"/>  
+    </bean>
+
+    <!--资产报废-->  
+    <bean id="damageAssetAction" class="com.wonders.asset.web.action.DamageAssetAction">
+         <property name="damageAssetService" ref="damageAssetService"/>
+    </bean>
+
+    <!--资产封存（停用）-->
+    <bean id="stopAssetAction" class="com.wonders.asset.web.action.StopAssetAction">
+        <property name="stopAssetService" ref="stopAssetService"/>
+    </bean>
+    
+    <!--资产停用-->
+    <bean id="disableAssetAction" class="com.wonders.asset.web.action.DisableAssetAction">
+        <property name="disableAssetService" ref="disableAssetService"/>
+    </bean>
+
+	<!-- 资产借用 -->
+	<bean id="borrowAssetAction" class="com.wonders.asset.web.action.BorrowAssetAction" scope="prototype">
+		<property name="borrowAssetService" ref="borrowAssetService"/>
+		<property name="attachmentService" ref="attachmentService"/>
+		<property name="assetService" ref="assetService"/>
+	</bean>
+	
+	<!-- 附件 -->
+	<bean id="attachmentAction" class="com.wonders.asset.web.action.AttachmentAction">
+		<property name="attachmentService" ref="attachmentService"/>
+	</bean>
+
+    <!--土地资源-->
+    <bean id="landAssetAction" class="com.wonders.asset.web.action.LandAssetAction">
+        <property name="landAssetService" ref="landAssetService"/>
+    </bean>
+</beans>

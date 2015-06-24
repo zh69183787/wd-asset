@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+	
+
+	<!-- 计算大中小类报表 -->
+	<select id="calculateDwAssetEntityStat" resultType="com.wonders.asset.model.dw.DwAssetEntityStat" parameterType="hashmap">
+		Select T.Code, T.Name, T.Pcode, Substr(T.Code, 1, 2) Maintypecode, Substr(T.Code, 3, 2) Subtypecode, 
+		Substr(T.Code, 5, 2) Detailtypecode, T.Count, nvl(T.Originalvalue,0) Originalvalue, Sysdate Createdate  
+		From (
+			Select Type.All_Code Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '00' Pcode 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1
+	        Group By Type.All_Code, Type.Name
+	      Union
+	        Select Type.All_Code Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, Substr(Type.All_Code,1,2) Pcode 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset asset On Type.Code_Id = Asset.Sub_Type_Code_Id 
+          	Where Substr(Type.All_Code,3,2) Is Not Null And Substr(Type.All_Code,5,2) Is Null and Type.Publish = 1
+	        Group By Type.All_Code, Type.Name
+	      Union
+			Select Type.All_Code Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, Substr(Type.All_Code,1,4) Pcode 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset asset On Type.Code_Id = Asset.Detail_Type_Code_Id 
+          	Where Substr(Type.All_Code,5,2) Is Not Null and Type.Publish = 1
+	        Group By Type.All_Code, Type.Name
+		) t order by t.code asc
+	</select>
+	
+	<!-- 计算线路资产价值分布 -->
+	<select id="calculateDwAssetLineValue" resultType="com.wonders.asset.model.dw.DwAssetLineValue" parameterType="hashmap">
+		Select A.Lineid, A.Name, A.Shortname, Sysdate Createdate,
+			Sum(A.Assetcount) Assetcount, Sum(A.Projectcount) Projectcount, 
+			Sum(A.Originalvalue) Originalvalue, Sum(A.Finalprice) Finalprice
+		From (        
+			Select Line.Code_Id Lineid, Line.Name Name, Line.Short_Name Shortname,
+			  Count(asset.id) assetCount, 0 projectCount,
+			  nvl(Sum(Asset.Original_Value),0) Originalvalue , 0 Finalprice 
+			From T_Line Line
+			Left Outer Join T_Asset_Owner Owner On Owner.Line_Code_Id = Line.Code_Id
+			Left Outer Join T_Asset Asset On Asset.Asset_Owner_Info_Id = Owner.Id
+			Where Line.Publish = 1
+			Group By Line.Code_Id, Line.Name, Line.Short_Name 
+			Union All
+			Select Line.Code_Id Lineid, Line.Name Name, Line.Short_Name Shortname,
+			  0 Assetcount, Count(project.id) Projectcount,
+			  0 Originalvalue, nvl(Sum(Project.Completed_Final_Price),0) Finalprice 
+			From T_Line Line
+			Left Outer Join T_Project Project On Line.Code_Id = Project.Line_Code_Id
+			Where Line.Publish = 1
+			Group By Line.Code_Id, Line.Name, Line.Short_Name
+		) A Where A.Lineid != '0' Group By A.Lineid, A.Name, A.Shortname
+	</select>
+	
+	<!-- 计算资产项目线路价值统计 -->
+	<select id="calculateDwAssetProjectLineValue" resultType="com.wonders.asset.model.dw.DwAssetProjectLineValue" parameterType="hashmap">
+	 Select Line.Code_Id Lineid, Line.Name Linename, Project.Id Projectid, Project.Project_Name Projectname, Count(Asset.Id) Count, Project.Short_Name shortName,
+      nvl(Sum(Asset.Original_Value),0) Originalvalue, nvl(Sum(Distinct Project.Completed_Final_Price),0) finalPrice, 
+      nvl(Sum(distinct project.PROJECT_BUDGET_ALL),0)*10000 investEstimate, Sysdate Createdate,nvl(Sum(Distinct Project.INVEST_ADDED),0) investAdded,nvl(Sum(Distinct Project.RESERVE_ESTIMATION),0) reserveEstimation,nvl(Sum(Distinct Project.TAX),0) tax,nvl(Project.Spare_Parts,0) Spareparts
+    From T_Project Project
+    Left Outer Join T_Asset asset on Asset.Project_Id = project.id
+    Left Outer Join T_Line Line On Line.Code_Id = Project.Line_Code_Id and Line.Publish = 1
+    Where Project.Project_Type = '1' And Project.Removed = 0
+    Group By Line.Code_Id, Line.Name, project.id, project.Project_Name, Project.Short_Name ,Project.Spare_Parts Order By Line.Code_Id
+	</select>
+	
+
+	<!-- 计算使用单位资产价值分布 -->
+	<select id="calculateDwAssetUseOrganizationUnit" resultType="com.wonders.asset.model.dw.DwAssetUseOrganizationUnit" parameterType="hashmap">
+		Select Org.Code_Id Orgid, Org.order_ order_, Org.name name, Org.short_name shortName, Count(Asset.id) Count, 
+		  nvl(Sum(Asset.Original_Value),0) Originalvalue, Sysdate Createdate
+		From T_Organization Org
+		Left Outer Join T_Asset_Owner Owner On Org.Code_Id = Owner.User_Org_Code_Id 
+		Left Outer Join T_Asset Asset On Owner.Id = Asset.Asset_Owner_Info_Id
+		Where Org.Publish = 1
+		Group By Org.Code_Id, Org.name, Org.short_name, Org.order_ Order By Org.order_
+	</select>
+	
+	<!-- 计算权属单位资产价值统计 -->
+	<select id="calculateDwAssetOwnerOrganizationUnit" resultType="com.wonders.asset.model.dw.DwAssetOwnerOrganizationUnit" parameterType="hashmap">
+		Select Org.Code_Id Orgid, Org.order_ order_, Org.name name, Org.short_name shortName, Count(Asset.id) Count, 
+		  nvl(Sum(Asset.Original_Value),0) Originalvalue, Sysdate Createdate
+		From T_Organization Org
+		Left Outer Join T_Asset_Owner Owner On Org.Code_Id = Owner.Owner_Org_Code_Id
+		Left Outer Join T_Asset Asset On Owner.Id = Asset.Asset_Owner_Info_Id
+		Where Org.Publish = 1
+		Group By Org.Code_Id, Org.name, Org.short_name, Org.order_ Order By Org.order_
+	</select>
+	
+	<!-- 计算建设项目个数和项目总概算 -->
+	<select id="calculateProjectCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		Select Count(1) Count, Nvl(Sum(Project_Budget_All),0)*10000 Price From T_Project 
+		where project_type = '1' and removed = 0
+	</select>
+	
+	<!-- 计算大修更新项目个数和项目决算价 -->
+	<select id="calculateOverhaulProjectCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		select count(1) count, nvl(sum(Completed_Final_Price),0) price from T_project 
+		where project_type in ('2', '3') and removed = 0
+	</select>
+	
+	<!-- 计算实物资产入册项目数 -->
+	<select id="calculateAssetProjectCount"  resultType="string" parameterType="hashmap">
+		Select count(Distinct Project.id) count From T_Asset Asset
+		Left Outer Join T_Project Project On Project.Id = Asset.Project_Id
+		where asset.Verify_State = '2' and Project.Project_Type = '1' and Project.Removed = 0
+	</select>
+	
+	<!-- 计算实物资产入册项数和入册合同价 -->
+	<select id="calculateAssetCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		Select Count(1) Count, Nvl(Sum(A.Price),0) Price From (
+			Select Distinct t.id, T.Contract_Price price 
+			From T_Asset T 
+			where T.Verify_State = '2'
+		) a
+	</select>
+	
+	<!-- 计算价值资产入册项目数 -->
+	<select id="calculateAccessAssetProjectCount"  resultType="string" parameterType="hashmap">
+		Select count(Distinct Project.id) count From T_Asset Asset
+		Left Outer Join T_Project Project On Project.Id = Asset.Project_Id
+		where asset.Verify_State = '2' and Asset.Original_Value is not null 
+		  and Project.Project_Type = '1' and Project.Removed = 0
+	</select>
+	
+	<!-- 计算价值资产入册项数和入册原值 -->
+	<select id="calculateAccessAssetCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		Select Count(1) Count, nvl(Sum(A.Price),0) price From (
+			Select Distinct t.id, T.Original_Value price 
+			From T_Asset T 
+			where T.Verify_State = '2' and T.Original_Value is not null
+		) a
+	</select>
+	
+	<!-- 根据资产状态计算资产个数和总价值 -->
+	<select id="calculateAssetCountAndPriceByState"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		Select Count(1) Count, nvl(Sum(A.Price),0) price From (
+			Select Distinct t.id, T.Original_Value price 
+			From T_Asset T 
+     		Left Outer Join T_Asset_State S On S.Id = T.State_Id
+			Where S.State = #{state}
+		) a
+	</select>
+	
+	<!-- 计算项目公司资产价值统计(权属单位资产价值分布) -->
+	<select id="calculateDwProjectCompanyPrice"  resultType="com.wonders.asset.model.dw.DwProjectCompanyPrice" parameterType="hashmap">
+		Select Project.Project_Company_Id Companyid, Project.Project_Company Name, Org.Short_Name Shortname, Sysdate Createdate,
+			nvl(Sum(Project.Completed_Final_Price),0) finalPrice, org.order_ order_
+		From T_Project Project 
+		left outer join T_Organization org on Org.Name = Project.Project_Company and Org.Publish = 1
+		Where Project.Project_Company Is Not Null And Project.Project_Type = '1' And Project.Removed = 0 and Project.Project_Company_id Is Not Null
+		group by Project.Project_Company_id,Project.Project_Company,Org.Short_Name,org.order_
+	</select>
+	
+	<!-- 计算资产形成年份分析 -->
+	<select id="calculateDwProjectPriceByYear"  resultType="com.wonders.asset.model.dw.DwProjectPriceByYear" parameterType="hashmap">
+		Select a.year, nvl(sum(a.finalPrice),0) finalPrice, sysdate createDate
+		from (
+			Select To_Char(Project.Input_Operation_Date,'yyyy') Year, Project.Completed_Final_Price finalPrice
+			From T_Project Project
+			Where Project.Input_Operation_Date Is Not Null
+		) a group by a.year
+	</select>
+	
+	<!-- 计算重要资产线路分布 -->
+	<select id="calculateDwImportantAssetLine"  resultType="com.wonders.asset.model.dw.DwImportantAssetLine" parameterType="hashmap">
+		Select Line.Code_Id Lineid, Line.Name Name, Line.Short_Name Shortname, 
+      		Nvl(Count(Asset.Count),0) Count, Nvl(Sum(Asset.Original_Value),0) Price, sysdate createDate
+		From T_Line Line
+		Left Outer Join T_Asset_Owner Owner On Owner.Line_Code_Id = Line.Code_Id
+		Left Outer Join T_Asset Asset On Asset.Asset_Owner_Info_Id = Owner.Id
+		Left Outer Join T_Asset_State State On Asset.State_Id = State.Id
+		Where Line.Code_Id != '0' and Line.Publish = 1
+		<if test="mainTypeId != null and mainTypeId != ''">
+			and Asset.Main_Type_Code_Id = #{mainTypeId} 
+		</if>
+		<if test="subTypeId != null and subTypeId != ''">
+			and Asset.Sub_Type_Code_Id = #{subTypeId} 
+		</if>
+		Group By Line.Code_Id, Line.Name, Line.Short_Name order by to_number(Line.Code_Id)
+	</select>
+	
+	<!-- 计算重要资产专业分布 -->
+	<select id="calculateDwImportantAssetRank"  resultType="com.wonders.asset.model.dw.DwImportantAssetRank" parameterType="hashmap">
+		Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '全网络' type, '1' order_, Sysdate Createdate  
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1
+	        Group By Type.Code_Id, Type.Name
+	    Union All
+		Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '维保公司' type, '2' order_, Sysdate Createdate 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id  
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 And Owner.User_Org_Code_Id In ('52')
+	        Group By Type.Code_Id, Type.Name
+        Union All
+        Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '运一公司' type, '3' order_, Sysdate Createdate 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id  
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 and Owner.User_Org_Code_Id = '55'
+	        Group By Type.Code_Id, Type.Name     
+	    Union All
+        Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '运二公司' type, '4' order_, Sysdate Createdate 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id  
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 and Owner.User_Org_Code_Id = '56'
+	        Group By Type.Code_Id, Type.Name    
+	    Union All
+        Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '运三公司' type, '5' order_, Sysdate Createdate 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id  
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 and Owner.User_Org_Code_Id = '57' 
+	        Group By Type.Code_Id, Type.Name     
+	    Union All
+        Select Type.Code_Id Code, Type.Name, count(asset.id) Count, Sum(asset.Original_Value) Originalvalue, '运四公司' type, '6' order_, Sysdate Createdate 
+	        From T_Asset_Type type 
+	        Left Outer Join T_Asset Asset On Type.Code_Id = Asset.Main_Type_Code_Id  
+            Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+          	Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 and Owner.User_Org_Code_Id = '58'
+	        Group By Type.Code_Id, Type.Name                     
+	</select>
+	
+	<!-- 计算线路资产状态统计
+	<select id="calculateDwAssetStateLine"  resultType="com.wonders.asset.model.dw.DwAssetStateLine" parameterType="hashmap">
+		Select A.Lineid, A.Name, A.Shortname, 
+		  Sum(A.Usecount) Usecount, Sum(A.Stopcount) Stopcount, Sum(A.Planscrapcount) Planscrapcount,
+      	  Sum(A.Useprice) Useprice, Sum(A.Stopprice) Stopprice, Sum(A.Planscrapprice) Planscrapprice, sysdate createDate
+		from(
+		  Select Line.Code_Id Lineid, Line.Name Name, Line.Short_Name Shortname, 
+		    Decode(State.State,'1',Count(*),0) Usecount,
+		    Decode(State.State,'2',Count(*),0) Stopcount,
+		    Decode(State.State,'4',Count(*),0) Planscrapcount,
+        	Decode(State.State,'1',sum(Asset.Original_Value),0) Useprice,
+		    Decode(State.State,'2',Sum(Asset.Original_Value),0) Stopprice,
+		    Decode(State.State,'4',Sum(Asset.Original_Value),0) Planscrapprice
+			From T_Line Line
+			Left Outer Join T_Asset_Owner Owner On Owner.Line_Code_Id = Line.Code_Id
+			Left Outer Join T_Asset Asset On Asset.Asset_Owner_Info_Id = Owner.Id
+			Left Outer Join T_Asset_State state on Asset.State_Id = State.Id
+			where Line.Code_Id != '0'
+			Group By Line.Code_Id, Line.Name, Line.Short_Name, State.State
+		) A Group By A.Lineid, A.Name, A.Shortname
+	</select> -->
+	
+	<!-- 计算资产重要指标情况 -->
+	<select id="calculateDwAssetImportantRatio"  resultType="com.wonders.asset.model.dw.DwAssetImportantRatio" parameterType="hashmap">
+		Select A.Code, A.Name ,Trunc(Sum(A.Usecount)/Sum(A.Allcount),4)*100 Useratio,
+			100-Trunc(Sum(A.Scrapcount)/Sum(A.Allcount),4)*100 Intactratio, sysdate createDate From(  
+		  	Select Type.All_Code Code, Type.Name, 
+		      Decode(State.State,'1',Count(Asset.Id),0) Usecount,
+		      Decode(State.State,'3',Count(Asset.Id),0) Scrapcount,0 allcount
+			From T_Asset_Type type 
+			Left Outer Join T_Asset asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' And Type.Publish = 1
+			Group By Type.All_Code, Type.Name, State.State
+		  	Union
+		  	Select Type.All_Code Code, Type.Name, 0, 0, count(asset.id) 
+			From T_Asset_Type type 
+			Left Outer Join T_Asset asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' And Type.Publish = 1
+			Group By Type.All_Code, Type.Name 
+		) a Group By A.Code, A.Name Having Sum(A.allCount) > 0
+	</select>
+	
+	<!-- 计算停用资产分类统计(按价值) delete-->
+	<select id="calculateDwStopStateAssetValue"  resultType="com.wonders.asset.model.dw.DwStopStateAssetValue" parameterType="hashmap">
+		select a.code, a.name ,sum(a.Originalvalue) Originalvalue, sysdate createDate from (
+			Select Type.All_Code Code, Type.Name, nvl(Sum(asset.Original_Value),0) Originalvalue
+			From T_Asset_Type type 
+			Left Outer Join T_Asset asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 And State.State = '2'
+			Group By Type.All_Code, Type.Name
+			Union
+			Select Type.All_Code Code, Type.Name, 0 Originalvalue
+			From T_Asset_Type Type 
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1
+		) a group by a.code, a.name
+	</select>
+	
+	<!-- 计算报废资产分类统计(按价值) delete -->
+	<select id="calculateDwScrapStateAssetValue"  resultType="com.wonders.asset.model.dw.DwScrapStateAssetValue" parameterType="hashmap">
+		select a.code, a.name ,sum(a.Originalvalue) Originalvalue, sysdate createDate from (
+			Select Type.All_Code Code, Type.Name, nvl(Sum(asset.Original_Value),0) Originalvalue
+			From T_Asset_Type type 
+			Left Outer Join T_Asset asset On Type.Code_Id = Asset.Main_Type_Code_Id 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1 And State.State = '3'
+			Group By Type.All_Code, Type.Name
+			Union
+			Select Type.All_Code Code, Type.Name, 0 Originalvalue
+			From T_Asset_Type Type 
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1
+		) a group by a.code, a.name
+	</select>
+	
+	<!-- 计算更新改造项目（个数和价值） -->
+	<select id="calculateRenovateProjectCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		select count(1) count, nvl(sum(Project_Budget_All),0)*10000 price from T_project where removed = 0 and project_type = '2' 
+		<if test="thisYear != null and thisYear != ''">
+			And To_Date(Approval_Date,'yyyy-mm-dd') >= Trunc(Sysdate,'yyyy')
+		</if>
+	</select>
+	
+	<!-- 计算大修项目（个数和价值） -->
+	<select id="calculateOverhaultProjectCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		select count(1) count, nvl(sum(Project_Budget_All),0)*10000 price from T_project where removed = 0 and project_type = '3'
+		<if test="thisYear != null and thisYear != ''">
+			And To_Date(Approval_Date,'yyyy-mm-dd') >= Trunc(Sysdate,'yyyy')
+		</if>
+	</select>
+	
+	<!-- 计算新增资产（个数和价值） -->
+	<select id="calculateNewAssetCountAndPrice"  resultType="com.wonders.asset.model.bo.CountPrice" parameterType="hashmap">
+		Select count(1) count, nvl(sum(T.Original_Value),0) price  From T_Asset t Where t.Complete_Trans_Asset_Type = '新增' 
+		<if test="thisYear != null and thisYear != ''">
+			And t.Operate_Project_Asset_Date >= Trunc(Sysdate,'yyyy')
+		</if>
+	</select>
+	
+	<!-- 计算大修/更新改造项目投资年变化情况 -->
+	<select id="calculateDwOverhaulBudgetYear"  resultType="com.wonders.asset.model.dw.DwOverhaulBudgetYear" parameterType="hashmap">
+		select a.year, sum(a.price) price, sum(a.contractPrice) contractPrice, sum(a.contractPayPrice) contractPayPrice, sysdate createDate from (
+			Select a.year, nvl(sum(a.price),0) price, 0 contractPrice, 0 contractPayPrice
+			From (
+				Select Substr(Project.APPROVAL_DATE,1,4) Year, Project.Project_Budget_All price
+				From T_Project Project
+				Where Project.Approval_Date Is Not Null And Project.Project_Type In ('2','3') and Project.Removed = 0
+			) a group by a.year  
+			union all
+			Select A.Year, 0 Price, Nvl(Sum(A.Price),0) Contractprice, 0 contractPayPrice
+			From (
+		   		Select Substr(Contract.CONTRACT_SIGNED_DATE,1,4) Year, Contract.Contract_Price price
+				From T_Project Project
+		      	Left Outer Join T_Contract Contract On Contract.Project_Id = Project.Id
+		      	Where Contract.Project_Id Is Not Null And Contract.Contract_Start_Date Is Not Null 
+		      	and Contract.Removed = 0 And Project.Project_Type In ('2','3') and Project.Removed = 0
+		  	) A Group By A.Year
+		  	union all
+		  	Select A.Year, 0 Price, 0 Contractprice,Nvl(Sum(A.Price),0) contractPayPrice 
+			From (
+				Select Substr(t.CONTRACT_SIGNED_DATE,1,4) Year, Sum(Cs.Money) price From T_Contract T 
+				Left Outer Join C_Contract_Status Cs On Cs.Contract_Id = T.Id 
+				Left Outer Join T_Project Project On Project.Id = T.Project_Id
+				Where Cs.Type = '3' And Cs.Removed = 0 And T.Contract_Signed_Date Is Not Null And T.Removed = 0 
+				And T.Project_Id Is Not Null And Project.Project_Type In ('2','3') And Project.Removed = 0
+				Group By T.Contract_Signed_Date
+			) A Group By A.Year
+		) a group by a.year
+	</select>
+	
+	<!-- 资产分类统计 -->
+	<select id="calculateDwAssetTypeState"  resultType="com.wonders.asset.model.dw.DwAssetTypeState" parameterType="hashmap">
+		Select A.code, A.Name, Sum(A.Useprice) Useprice, Sum(A.Stopprice) Stopprice, Sum(A.Scrapprice) Scrapprice, 
+			Sum(A.Planscrapprice) Planscrapprice, Sum(A.Discardprice) Discardprice, #{type} type 
+		from(
+		<if test="type != null and type == 'assetType'">
+			Select Type.All_Code code, Type.Name,
+				Decode(State.State,'1',sum(Asset.Original_Value),0) Useprice,
+			    Decode(State.State,'2',Sum(Asset.Original_Value),0) Stopprice,
+	        	Decode(State.State,'3',Sum(Asset.Original_Value),0) Scrapprice,
+	        	Decode(State.State,'4',Sum(Asset.Original_Value),0) Planscrapprice,
+			    Decode(State.State,'5',Sum(Asset.Original_Value),0) Discardprice 
+        	From T_Asset Asset
+			Left Outer Join T_Asset_Type Type On Type.Code_Id = Asset.Main_Type_Code_Id and Type.Publish = 1
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Asset.Main_Type_Code_Id Is Not Null Group By Type.All_Code, Type.Name,State.State
+		  Union 
+			Select Type.All_Code Code, Type.Name, 0,0,0,0,0
+			From T_Asset_Type Type 
+			Where Substr(Type.All_Code,3,2) Is Null And Type.All_Code != '0' and Type.Publish = 1
+		</if>
+		<if test="type != null and type == 'org'">
+			Select org.code, Org.Short_Name name,
+				Decode(State.State,'1',sum(Asset.Original_Value),0) Useprice,
+			    Decode(State.State,'2',Sum(Asset.Original_Value),0) Stopprice,
+	        	Decode(State.State,'3',Sum(Asset.Original_Value),0) Scrapprice,
+	        	Decode(State.State,'4',Sum(Asset.Original_Value),0) Planscrapprice,
+			    Decode(State.State,'5',Sum(Asset.Original_Value),0) Discardprice 
+        	From T_Asset Asset
+      		Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+      		left outer join T_Organization org on Org.Code_Id = Owner.Owner_Org_Code_Id and Org.Publish = 1
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Group By org.code, Org.Short_Name ,State.State
+		 Union 
+			Select org.code Code, org.short_name, 0,0,0,0,0
+			From T_Organization Org 
+			Where Org.Publish =1
+		</if>
+		<if test="type != null and type == 'line'">
+			Select line.code, Line.Short_Name name,
+				Decode(State.State,'1',sum(Asset.Original_Value),0) Useprice,
+			    Decode(State.State,'2',Sum(Asset.Original_Value),0) Stopprice,
+	        	Decode(State.State,'3',Sum(Asset.Original_Value),0) Scrapprice,
+	        	Decode(State.State,'4',Sum(Asset.Original_Value),0) Planscrapprice,
+			    Decode(State.State,'5',Sum(Asset.Original_Value),0) Discardprice 
+        	From T_Asset Asset
+      		Left Outer Join T_Asset_Owner Owner On Owner.Id = Asset.Asset_Owner_Info_Id
+      		left outer join T_Line line on Line.Code_Id = Owner.Line_Code_Id and Line.Publish = 1
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Group By line.code, Line.Short_Name ,State.State
+		  Union 
+			Select Line.Code, Line.Short_Name, 0,0,0,0,0
+			From T_line line 
+			Where line.Publish =1
+		</if>
+		) a group by a.code, a.Name
+	</select>
+	
+	<!-- 计算大修更新改造按线路分布 -->
+	<select id="calculateDwOverhaulLine"  resultType="com.wonders.asset.model.dw.DwOverhaulLine" parameterType="hashmap">
+		select T.Object_Name name, t.order_, sysdate createDate, #{year} year,0 overhaulPrice, 0 renovatePrice 
+		from C_COMPANY_ROUTE t where t.type ='2' and t.pid ='01' and T.Removed = 0
+	</select>
+	
+	<!-- 查询项目资金来源 -->
+	<select id="findMoneySource"  resultType="string" parameterType="hashmap">
+		Select Project.Project_Moneysource From T_Project Project 
+		Left Outer Join T_Organization Org On Org.Name = Project.Project_Company and Org.Publish = 1
+		where project.removed='0' and project.project_Moneysource is not null 
+		<if test="projectType != null and projectType != ''">
+			and project.Project_Type = #{projectType}
+		</if>
+		<if test="professionalType != null and professionalType != ''">
+			and project.Professional_Type = #{professionalType} 
+		</if>
+		<if test="orgCode != null and orgCode != ''">
+			and Org.code = #{orgCode}
+		</if>
+		<if test="year != null and year != ''">
+			and substr(project.approval_date,1,4) = #{year}
+		</if>
+	</select>
+	
+	<!-- 计算大修更新改造专业分布执行情况趋势 -->
+	<select id="calculateDwOverhaulMajorType"  resultType="com.wonders.asset.model.dw.DwOverhaulMajorType" parameterType="hashmap">
+	<!--
+		select a.year,A.Typeid,a.typeName,sum(a.Renovateprice) updatePrice, sum(a.Overhaulprice) overhaulPrice, sysdate createDate  
+		from (
+			Select To_Char(sysdate,'yyyy')-#{num} year,Project.Professional_Type typeId, 
+			decode(Project.Professional_Type,1,'车辆',2,'供电',3,'通号',4,'工务',5,'基地',6,'车站机电') typeName,
+			Sum(Decode(Project.Project_Type,2,Project.Project_Budget_All,0)) Renovateprice,
+			sum(decode(project.project_type,3,Project.Project_Budget_All,0)) Overhaulprice
+			From T_Project Project 
+			Where Project.Professional_Type Is Not Null And Substr(Project.APPROVAL_DATE,1,4) = To_Char(Sysdate,'yyyy')-#{num}
+			Group By Project.Professional_Type
+			Union All
+			Select To_Char(sysdate,'yyyy')-#{num} year,Project.Professional_Type typeId,
+			decode(Project.Professional_Type,1,'车辆',2,'供电',3,'通号',4,'工务',5,'基地',6,'车站机电') typeName,
+			0 Renovateprice,
+			0 Overhaulprice
+			From T_Project Project 
+			Where Project.Professional_Type Is Not Null
+			Group By Project.Professional_Type
+		) a group by a.year, a.typeId, a.typeName
+	-->
+		Select Decode(Project.Professional_Type,1,'车辆',2,'供电',3,'通号',4,'工务',5,'后勤',6,'车站机电') Typename, Project.Professional_Type Typeid,
+			Nvl(Sum(Decode(Project.Project_Type,2,Cs.Money,0))*10000,0) Renovateactualpricegroup,
+			nvl(sum(decode(project.project_type,3,cs.money,0))*10000,0) OverhaulActualpricegroup,
+			#{year} year, sysdate createDate
+		From T_Contract Contract 
+		Left Outer Join T_Project Project On Project.Id = Contract.Project_Id And Project.Removed = 0
+		Left Outer Join C_Contract_Status Cs On Cs.Contract_Id = Contract.Id And Cs.Type = '3' And Cs.Removed = 0
+		Where Substr(Contract.Contract_Signed_Date,1,4) = #{year} And Contract.Removed = 0 and Project.Professional_Type Is Not Null
+		Group By Project.Professional_Type
+	</select>
+	
+	<!-- 计算物资消耗及人工工时情况 
+	<select id="calculateDwMaterialsConsume"  resultType="com.wonders.asset.model.dw.DwMaterialsConsume" parameterType="hashmap">
+		Select To_Char(Sysdate,'yyyy') year, Type.Code_Id typeId, Type.Name typeName, 
+			Nvl(Sum(A.Materialsworkinghours),0) Materialsworkinghours, 
+      		Nvl(Sum(A.Materialsprice),0) Materialsprice, 
+      		Nvl(Sum(A.Maintainworkinghours),0) Maintainworkinghours,
+			Nvl(Sum(A.Maintainprice),0) Maintainprice,
+			sysdate createDate  
+		From T_Asset Asset
+		left outer join T_Asset_Type type on Type.Code_Id = Asset.Main_Type_Code_Id
+		left outer join (	
+			Select T.Asset_No, Sum(T.Cost_Hour) Materialsworkinghours,Sum(T.Maintenance_Cost) Materialsprice,
+        		0 maintainWorkingHours, 0 maintainPrice
+			From T_Asset_Overhaul T 
+			Where To_Char(T.Cost_Time, 'yyyy')= To_Char(Sysdate,'yyyy')
+			Group By T.Asset_No
+      		Union All
+      		Select T.Asset_No, 0 Materialsworkinghours, 0 Materialsprice,
+        		Sum(T.Cost_Hour) maintainWorkingHours,Sum(T.Maintenance_Cost) maintainPrice 
+			From T_Asset_Maintenance_Cost T 
+			Where To_Char(T.Cost_Time, 'yyyy')= To_Char(Sysdate,'yyyy')
+			Group By T.Asset_No
+		) A On A.Asset_No = Asset.Asset_Code
+		where Asset.Main_Type_Code_Id is not null
+		Group By Type.Code_Id, Type.Name
+	</select> -->
+	
+	<!-- 计算报废资产实际寿命统计 -->
+	<select id="calculateDwScrapAssetUseLife"  resultType="com.wonders.asset.model.dw.DwScrapAssetUseLife" parameterType="hashmap">
+		Select 
+			a.subTypeId, Type.Name subTypeName, Parent.Code_Id mainTypeId,
+			Sum(A.Aheadofscrapcount) Aheadofscrapcount, 
+			Sum(A.Normalusecount) Normalusecount,
+			Sum(A.Delayscrapcount) Delayscrapcount,
+			To_Char(Sysdate,'yyyy') year
+		From (
+			Select #{subTypeId} subTypeId, count(1) aheadOfScrapCount, 0 normalUseCount, 0 delayScrapCount From T_Asset Asset 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Asset.Use_Date Is Not Null And Asset.Use_Life Is Not Null And Asset.Approval_Scrap_Date Is Not Null 
+				And Asset.Approval_Scrap_Date &lt; Trunc(Asset.Use_Date+365*Asset.Use_Life,'yyyy')
+				And State.State = '3' And Asset.Sub_Type_Code_Id = #{subTypeId}
+			Union All
+			Select #{subTypeId} subTypeId, 0 aheadOfScrapCount, count(1) normalUseCount, 0 delayScrapCount From T_Asset Asset 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Asset.Use_Date Is Not Null And Asset.Use_Life Is Not Null And Asset.Approval_Scrap_Date Is Not Null 
+				And Asset.Approval_Scrap_Date > Trunc(Asset.Use_Date+365*Asset.Use_Life,'yyyy') 
+				And Asset.Approval_Scrap_Date &lt; Trunc(Asset.Use_Date+365*(Asset.Use_Life+1),'yyyy')
+				And State.State = '3' And Asset.Sub_Type_Code_Id = #{subTypeId}
+			Union All
+			Select #{subTypeId} subTypeId, 0 aheadOfScrapCount, 0 normalUseCount, count(1) delayScrapCount From T_Asset Asset 
+			Left Outer Join T_Asset_State State On State.Id = Asset.State_Id
+			Where Asset.Use_Date Is Not Null And Asset.Use_Life Is Not Null And Asset.Approval_Scrap_Date Is Not Null 
+				And Asset.Approval_Scrap_Date > Trunc(Asset.Use_Date+365*(Asset.Use_Life+1),'yyyy')
+				And State.State = '3' And Asset.Sub_Type_Code_Id = #{subTypeId}
+		) a 
+		Left Outer Join T_Asset_Type Type On Type.Code_Id = A.Subtypeid And Type.Publish = 1
+		Left Outer Join T_Asset_Type Parent On Parent.Id = Type.Parent_Id
+   		group by type.name,a.Subtypeid,Parent.Code_Id
+	</select>
+</mapper>

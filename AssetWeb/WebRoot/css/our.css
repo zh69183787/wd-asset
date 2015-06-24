@@ -1,0 +1,134 @@
+@charset "utf-8";
+.w30p {
+	width: 25%;
+}
+
+.w50p {
+	width: 50%;
+}
+
+.w49p {
+	width: 50%;
+}
+
+.w120 {
+	width: 120px;
+}
+
+.w25p{
+	width:25%;		
+}
+.w24p{
+	width: 24%;	
+}
+
+.w10p{
+	width: 10%;	
+}
+
+.bar {
+	height: 27px;
+	line-height: 27px;
+	padding: 6px 8px;
+	border-top: 1px solid #BFCFDA;
+	border-bottom: 1px solid #BFCFDA;
+	background-image: url("../css/default/images/bar_bg.png");
+	background-repeat: repeat-x;
+}
+
+.b_bor {
+	border-bottom: 1px solid #D1D1D1;
+}
+
+.p5 {
+	padding: 5px;
+}
+
+.p8 {
+	padding: 8px;
+}
+
+.fl {
+	float: left;
+}
+
+.t_c {
+	text-align: center;
+}
+
+.t_r {
+	text-align: right;
+}
+
+.clearfix:before,.clearfix:after {
+	content: ".";
+	display: block;
+	font-size: 0;
+	height: 0;
+	line-height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+a {
+	color: #605F5F;
+	text-decoration: none;
+}
+
+.lable_bg {
+	background: none repeat scroll 0 0 #F7F9FC;
+}
+
+.table_1,#content,.tree {
+	border-top: 1px solid #BFCFDA;
+}
+
+.table_1,.tree,#content,.bor {
+	background-color: #FFFFFF;
+}
+
+.table_1 thead td {
+	border-left: 1px solid #F6F7FA;
+	border-right: 1px solid #BFCFDA;
+	box-shadow: 0 2px 0 #ECECEC;
+	color: #595F81;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+h4 {
+	font-size: 15px;
+}
+
+.input_large {
+  width: 160px;
+}
+.w100p{
+	width:100%;
+}
+.fl{
+	float:left;
+}
+
+.trHead {
+  background: #78b1ed;
+  background: -moz-linear-gradient(top, #78b1ed 0%, #417bb5 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #78b1ed), color-stop(100%, #417bb5));
+  background: -webkit-linear-gradient(top, #78b1ed 0%, #417bb5 100%);
+  background: -o-linear-gradient(top, #78b1ed 0%, #417bb5 100%);
+  background: -ms-linear-gradient(top, #78b1ed 0%, #417bb5 100%);
+  background: linear-gradient(to bottom, #78b1ed 0%, #417bb5 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#78b1ed', endColorstr='#417bb5', GradientType=0);
+  border-color: #2B5177;
+  color: #FFFFFF;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+body {
+  font:12px/1.5 'Helvetica Neue', 'Microsoft YaHei', Arial, 'Liberation Sans', FreeSans, sans-serif;
+}

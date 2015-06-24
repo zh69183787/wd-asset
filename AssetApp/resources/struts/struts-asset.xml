@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 资产action -->
+    <package name="asset" namespace="/asset" extends="struts-default">
+        <action name="inquery" class="assetAction" method="inquery"/>
+        
+		<action name="importAssetData" class="assetAction" method="importAssetData"/>
+		<action name="showView" class="assetAction" method="showView">
+			<result>/jsp/asset/assetView.jsp</result>
+		</action>
+		<action name="showProjectRecord" class="assetAction" method="showProjectRecord"/>
+		
+		<!-- 查询大修更新列表 -->
+		<action name="queryAssetRecord" class="assetAction" method="queryAssetRecord"/>
+		<!-- 导出大修更新列表 -->
+		<action name="excelRecordAsset" class="assetAction" method="excelRecordAsset"/>
+		
+		<!-- 资产导入 -->
+		<action name="assetBatchUpload" class="assetAction" method="assetBatchUpload"/>
+		
+		<action name="transAssetObjectToAssetInfo" class="assetAction" method="transAssetObjectToAssetInfo"/>
+		<action name="transAssetObjectToAssetInfoWithAssetNo" class="assetAction" method="transAssetObjectToAssetInfoWithAssetNo"/>
+	</package>	
+	
+    <package name="enterprise" extends="struts-default">
+		<action name="findAll" class="enterpriseAction" method="findAll" />
+		<action name="inquery" class="enterpriseAction" method="inquery">
+            <result name="list">/asset/jsp/enterpriseList.jsp</result>
+        </action>
+	</package>
+	
+	<!-- 资产类型aciton -->
+	<package name="assetType" namespace="/assetType" extends="struts-default">
+		 <action name="findAssetType" class="assetTypeAction" method="findAssetType"/>
+		 <action name="findAssetTypeByVersion" class="assetTypeAction" method="findAssetTypeByVersion"/>
+		 <action name="copyCurrentVersion" class="assetTypeAction" method="copyCurrentVersion"/>
+		 <action name="showVersion" class="assetTypeAction" method="showVersion"/>
+		 <action name="saveAssetType" class="assetTypeAction" method="saveAssetType"/>
+		 <action name="updateAssetType" class="assetTypeAction" method="updateAssetType"/>
+		 <action name="deleteAssetType" class="assetTypeAction" method="deleteAssetType"/>
+		 <action name="getAllAssetType" class="assetTypeAction" method="getAllAssetType"/>
+		 <action name="publish" class="assetTypeAction" method="publish"/>
+	</package>
+	
+	
+	<!-- 备品备件类型aciton -->
+	<package name="spareType" namespace="/spareType" extends="struts-default">
+		 <action name="getAllSpareType" class="spareTypeAction" method="getAllSpareType"/>
+		 <action name="showSpareVersion" class="spareTypeAction" method="showSpareVersion"/>
+		 <action name="saveSpareType" class="spareTypeAction" method="saveSpareType"/>
+		 <action name="updateSpareType" class="spareTypeAction" method="updateSpareType"/>
+		 <action name="deleteSpareType" class="spareTypeAction" method="deleteSpareType"/>
+		 <action name="copySpareCurrentVersion" class="spareTypeAction" method="copySpareCurrentVersion"/>
+		 <action name="sparePublish" class="spareTypeAction" method="sparePublish"/>
+	</package>
+	
+	
+	
+	<!-- 设备action -->
+	<package name="equipmentAction" namespace="/equipment" extends="struts-default">
+		 <action name="inquery" class="equipmentAction" method="inquery"/>
+	</package>
+
+	<!--资产停用信息-->
+    <package name="stopAsset" namespace="/stopAsset" extends="struts-default">
+        <action name="inquery" class="stopAssetAction" method="inquery"/>
+        <action name="inqueryAsset" class="stopAssetAction" method="inqueryAsset"/>
+        <action name="excelStopAsset" class="stopAssetAction" method="excelStopAsset"/>
+    </package>
+    
+    <!--大修更新改造-->
+    <package name="assetRecord" namespace="/assetRecord" extends="struts-default">
+        <action name="inquery" class="assetRecordAction" method="inquery"/>
+    </package>
+
+    <!--资产调拨-->
+    <package name="allocateAsset" namespace="/allocateAsset" extends="struts-default">
+        <action name="inquery" class="allocateAssetAction" method="inquery"/>
+        <action name="inqueryAsset" class="allocateAssetAction" method="inqueryAsset"/>
+        <action name="excelAllocateAsset" class="allocateAssetAction" method="excelAllocateAsset"/>
+    </package>
+
+    <!--资产报废-->
+    <package name="damageAsset" namespace="/damageAsset" extends="struts-default">
+        <action name="inquery" class="damageAssetAction" method="inquery"/>
+        <action name="inqueryAsset" class="damageAssetAction" method="inqueryAsset"/>
+        <action name="excelDamageAsset" class="damageAssetAction" method="excelDamageAsset"/>
+    </package>
+
+	<!-- 资产信息 action-->
+	<package name="assetPrice" namespace="/assetPrice" extends="struts-default">
+		 <action name="inquery" class="assetPriceAction" method="inquery"/>
+	</package>
+	
+	<!-- 线路action -->
+	<package name="assetLine" namespace="/assetLine" extends="struts-default">
+        <action name="getAllLine" class="lineAction" method="getAllLine"/>
+        <action name="findByVersion" class="lineAction" method="findByVersion"/>
+        <action name="findAllVersion" class="lineAction" method="findAllVersion"/>
+        <action name="saveLine" class="lineAction" method="saveLine"/>
+        <action name="checkUniqueness" class="lineAction" method="checkUniqueness"/>
+        <action name="deleteLine" class="lineAction" method="deleteLine"/>
+        <action name="copyCurrentVersion" class="lineAction" method="copyCurrentVersion"/>
+        <action name="publish" class="lineAction" method="publish"/>
+        <action name="findStationById" class="lineAction" method="findStationById"></action>
+	</package>	
+	
+	<!-- 车站action -->
+	<package name="assetStation" namespace="/assetStation" extends="struts-default">
+        <action name="findStationByLine" class="stationAction" method="findStationByLine"/>
+        <action name="checkUniqueness" class="stationAction" method="checkUniqueness"/>
+        <action name="saveStation" class="stationAction" method="saveStation"/>
+        <action name="deleteStation" class="stationAction" method="deleteStation"/>
+        
+        
+	</package>	
+	
+	<!-- 使用单位、权属单位action -->
+	<package name="assetOrganization" namespace="/assetOrganization" extends="struts-default">
+        <action name="getAllOrganization" class="organizationAction" method="getAllOrganization"/>
+         <action name="findAllVersion" class="organizationAction" method="findAllVersion"/>
+        <action name="checkUniqueness" class="organizationAction" method="checkUniqueness"/>
+        <action name="saveOrganization" class="organizationAction" method="saveOrganization"/>
+        <action name="deleteOrganization" class="organizationAction" method="deleteOrganization"/>
+        <action name="copyCurrentVersion" class="organizationAction" method="copyCurrentVersion"/>
+        <action name="publish" class="organizationAction" method="publish"/>
+	</package>
+	
+	<!-- 维护部门action -->
+	<package name="assetDepartment" namespace="/assetDepartment" extends="struts-default">
+        <action name="getAllDepartment" class="departmentAction" method="getAllDepartment"/>
+        <action name="findAllVersion" class="departmentAction" method="findAllVersion"/>
+        <action name="checkUniqueness" class="departmentAction" method="checkUniqueness"/>
+        <action name="saveDepartment" class="departmentAction" method="saveDepartment"/>
+        <action name="deleteDepartment" class="departmentAction" method="deleteDepartment"/>
+        <action name="copyCurrentVersion" class="departmentAction" method="copyCurrentVersion"/>
+        <action name="publish" class="departmentAction" method="publish"/>
+	</package>
+	
+	
+	<!-- 项目action -->
+	<package name="project" namespace="/project" extends="struts-default">
+        <action name="getProjectByLine" class="projectAction" method="getProjectByLine"/>
+        <action name="inquery" class="projectAction" method="inquery"/>
+        <action name="findShortName" class="projectAction" method="findShortName"/>
+	</package>
+	
+	<!-- 日常维护action -->
+	<package name="assetMaintenanceCost" namespace="/maintenanceCost" extends="struts-default">
+		<action name="inquery" class="assetMaintenanceCostAction" method="inquery"/>
+	</package>
+	
+	<!-- 大修改造action -->
+	<package name="assetOverhaul" namespace="/assetOverhaul" extends="struts-default">
+		<action name="inquery" class="assetOverhaulAction" method="inquery"/>
+	</package>
+	
+	<!-- 资产借用 -->
+	<package name="borrowAsset" namespace="/borrowAsset" extends="struts-default">
+		<action name="inquery" class="borrowAssetAction" method="inquery"/>
+		<action name="inqueryAsset" class="borrowAssetAction" method="inqueryAsset"/>
+		<action name="excelBorrowAsset" class="borrowAssetAction" method="excelBorrowAsset"/>
+	</package>
+	
+	<!-- 附件 -->
+	<package name="attachment" namespace="/attachment" extends="struts-default">
+		<action name="showAttachment" class="attachmentAction" method="showAttachment"/>
+	</package>
+	
+	<!-- 房屋资源 -->
+	<package name="houseAsset" namespace="/houseAsset" extends="struts-default">
+		<action name="inquery" class="houseAssetAction" method="inquery">
+			<result>/jsp/asset/houseAssetList.jsp</result>
+		</action>
+		<action name="showView" class="houseAssetAction" method="showView">
+			<result>/jsp/asset/houseAssetView.jsp</result>
+		</action>
+		<action name="exportDataReport" class="houseAssetAction" method="exportDataReport"></action>
+	</package>
+	
+	<!-- 对外接口action -->
+	<package name="externalInterface" namespace="/external" extends="struts-default">
+		<action name="doResolve" class="externalInterfaceAction" method="doResolve"/>
+		<action name="findAssetOverHaul" class="externalInterfaceAction" method="findAssetOverHaul"/>
+		<action name="findAssetMaintenanceCost" class="externalInterfaceAction" method="findAssetMaintenanceCost"/>
+		<action name="test" class="externalInterfaceAction" method="test"/>
+	</package>
+
+    <!--土地资源-->
+    <package name="assetLand" namespace="/assetLand" extends="struts-default">
+        <action name="inquery" class="landAssetAction" method="inquery">
+        </action>
+        <action name="showAssetLandView" class="com.wonders.asset.web.action.LandAssetAction" method="showAssetLandView">
+            <result>/jsp/asset/assetLandView.jsp</result>
+        </action>
+        <action name="excelLandAsset" class="com.wonders.asset.web.action.LandAssetAction" method="excelLandAsset">
+            <!--<result></result>
+        --></action>
+        <action name="findReport" class="landAssetAction" method="findReport">
+            <result>/jsp/report/LandAssetValue.jsp</result>
+        </action>
+    </package>
+    
+      <package name="spareParts" namespace="/spareParts" extends="struts-default">
+        <action name="inquery" class="sparePartsAction" method="inquery"></action>
+        <action name="showSparePartsView" class="com.wonders.asset.web.action.SparePartsAction" method="showSparePartsView">
+            <result>/jsp/asset/sparePartsView.jsp</result>
+        </action>
+        <action name="excelSpareParts" class="sparePartsAction" method="excelSpareParts"></action>
+        <action name="findSparePartsType" class="sparePartsAction" method="findSparePartsType"></action>
+        <action name="sysncSpareData" class="sparePartsAction" method="sysncSpareData"></action>
+      </package>
+
+    <package name="workPlan" namespace="/workPlan" extends="struts-default">
+        <action name="inquery" class="com.wonders.asset.web.action.WorkPlanAction" method="inquery">
+            <result>/jsp/plan/work_plan_list.jsp</result>
+        </action>
+    </package>
+
+    <package name="dwAssetProjectLineValue" namespace="/dwAssetProjectLineValue" extends="struts-default">
+        <action name="inquery" class="com.wonders.asset.web.action.DwAssetProjectLineValueAction" method="getDwAssetProjectLineValue"/>
+    </package>
+    
+    <package name="disableAsset" namespace="/disableAsset" extends="struts-default">
+        <action name="inquery" class="disableAssetAction" method="inquery"/>
+        <action name="inqueryAsset" class="disableAssetAction" method="inqueryAsset"/>
+        <action name="excelDisableAsset" class="disableAssetAction" method="excelDisableAsset"/>
+    </package>
+</struts>

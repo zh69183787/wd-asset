@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+<!--
+	<service interface="com.huateng.application.service.user.UserService" default="local">
+		<impl type="ws" address="http://localhost:8085/InfoExchangeWeb/webservice/UserService" wstype="simple"/>
+		<impl type="local" id="userService" />
+		<impl type="ejb3" id="userEJB3Service" url="jnp://localhost:1199"/>
+	</service>
+-->
+
+	<service interface="com.wonders.asset.service.EnterpriseService"  default="local">
+	    <impl type="local"  id="enterpriseService"/>
+	</service>
+   
+   <service interface="com.wonders.asset.service.AssetService"  default="local">
+         <impl type="local"  id="assetService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.AssetTypeService"  default="local">
+         <impl type="local"  id="assetTypeService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.SpareTypeService"  default="local">
+         <impl type="local"  id="spareTypeService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.ReportService"  default="local">
+         <impl type="local"  id="reportService"/>
+   </service>
+   
+    <service interface="com.wonders.asset.service.EquipmentService"  default="local">
+         <impl type="local"  id="equipmentService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.AssetPriceService"  default="local">
+         <impl type="local"  id="assetPriceService"/>
+   </service>
+   
+      <service interface="com.wonders.asset.service.LineService"  default="local">
+         <impl type="local"  id="lineService"/>
+   </service>
+   
+    <service interface="com.wonders.asset.service.StationService"  default="local">
+         <impl type="local"  id="stationService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.OrganizationService"  default="local">
+         <impl type="local"  id="organizationService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.DepartmentService"  default="local">
+         <impl type="local"  id="departmentService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.ProjectService"  default="local">
+         <impl type="local"  id="projectService"/>
+   </service>
+   
+    <service interface="com.wonders.asset.service.AssetMaintenanceCostService"  default="local">
+         <impl type="local"  id="assetMaintenanceCostService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.AssetOverhaulService"  default="local">
+         <impl type="local"  id="assetOverhaulService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.XmlDataResolveService"  default="local">
+         <impl type="local"  id="xmlDataResolveService"/>
+   </service>
+   
+   
+   <service interface="com.wonders.jeecms.service.JeecmsService"  default="local">
+         <impl type="local"  id="jeecmsService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.AssetTaskService"  default="local">
+         <impl type="local"  id="assetTaskService"/>
+   </service>
+   
+   <service interface="com.wonders.asset.service.LandAssetService"  default="local">
+   		 <impl type="local"  id="landAssetService"></impl>
+   </service>
+   
+   <service interface="com.wonders.asset.service.SparePartsService"  default="local">
+   		 <impl type="local"  id="sparePartsService"></impl>
+   </service>
+   
+   <service interface="com.wonders.asset.service.HouseAssetService"  default="local">
+   		 <impl type="local"  id="houseAssetService"></impl>
+   </service>
+   
+   <service interface="com.wonders.asset.service.AreaInfoService"  default="local">
+   		 <impl type="local"  id="areaInfoService"></impl>
+   </service>
+   
+   <service interface="com.wonders.asset.service.DisableAssetService"  default="local">
+   		 <impl type="local"  id="disableAssetService"></impl>
+   </service>
+   
+   <service interface="com.wonders.asset.service.BorrowAssetService"  default="local">
+   		 <impl type="local"  id="borrowAssetService"></impl>
+   </service>
+
+    <service interface="com.wonders.asset.service.AssetRecordService"  default="local">
+        <impl type="local"  id="assetRecordService"></impl>
+    </service>
+</service-config>

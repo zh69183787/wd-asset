@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+    <package name="task" namespace="/task" extends="struts-default">
+        <action name="inquery" class="assetTaskAction" method="inquery"/>
+        <action name="showView" class="assetTaskAction" method="showView">
+        	<result name="success">/jsp/task/taskView.jsp</result>
+        </action>
+        <action name="uploadAttach" class="assetTaskAction" method="uploadAttach"/>
+        <action name="downloadAttach" class="assetTaskAction" method="downloadAttach"/>
+        <action name="deleteAttach" class="assetTaskAction" method="deleteAttach"/>
+        <action name="findInfo" class="assetTaskAction" method="getCheckInfoAndAsset"/>
+        <action name="getCompleterate" class="com.wonders.asset.web.action.AssetTaskAction" method="getCompleterate"/>
+	</package>	
+	
+</struts>

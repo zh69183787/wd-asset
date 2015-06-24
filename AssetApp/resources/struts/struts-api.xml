@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <!-- 资产action -->
+    <package name="api" namespace="/api/asset" extends="struts-default">
+        <action name="assetInfos" class="com.wonders.api.AssetInfoAction" method="assetInfos"/>
+        
+        <action name="updateAssetRecord" class="assetRecordAction" method="upateAssetRecord"/>
+        
+        <action name="assetRecords" class="assetRecordAction" method="assetRecords"/>
+
+        <action name="dicts" class="com.wonders.api.AssetInfoAction" method="dicts"/>
+
+        <action name="setData" class="com.wonders.api.AnalysisOfXmlAction" method="setData"/>
+        <action name="importData" class="com.wonders.api.AnalysisOfXmlAction" method="importData"/>
+        <action name="importBorrowAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importBorrowAsset"/>
+        <action name="importHouseAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importHouseAsset"/>
+        <action name="importLandAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importLandAsset"/>
+        <action name="importStopAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importStopAsset"/>
+        <action name="importAllocateAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importAllocateAsset"/>
+        <action name="importDamageAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importDamageAsset"/>
+        <action name="importAssetTask" class="com.wonders.api.AnalysisOfXmlAction" method="importAssetTask"/>
+        <action name="importDisableAsset" class="com.wonders.api.AnalysisOfXmlAction" method="importDisableAsset"/>
+        <action name="importAssetRecord" class="com.wonders.api.AnalysisOfXmlAction" method="importAssetRecord"/>
+
+
+    </package>
+</struts>

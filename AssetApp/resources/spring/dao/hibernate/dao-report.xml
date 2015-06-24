@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<bean id="dwAssetEntityStatDao"
+		class="com.wonders.asset.dao.impl.DwAssetEntityStatDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetLineValueDao"
+		class="com.wonders.asset.dao.impl.DwAssetLineValueDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetUseOrganizationDao"
+		class="com.wonders.asset.dao.impl.DwAssetUseOrganizationDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetOwnerOrganizationDao"
+		class="com.wonders.asset.dao.impl.DwAssetOwnerOrganizationDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetProjectLineValueDao"
+		class="com.wonders.asset.dao.impl.DwAssetProjectLineValueDaoImpl">
+	</bean>
+	
+	<bean id="dwHomePageStatDao"
+		class="com.wonders.asset.dao.impl.DwHomePageStatDaoImpl">
+	</bean>
+	
+	<bean id="dwProjectCompanyPriceDao"
+		class="com.wonders.asset.dao.impl.DwProjectCompanyPriceDaoImpl">
+	</bean>
+	
+	<bean id="dwProjectPriceByYearDao"
+		class="com.wonders.asset.dao.impl.DwProjectPriceByYearDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetStateLineDao"
+		class="com.wonders.asset.dao.impl.DwAssetStateLineDaoImpl">
+	</bean>
+	
+	<bean id="dwStopStateAssetValueDao"
+		class="com.wonders.asset.dao.impl.DwStopStateAssetValueDaoImpl">
+	</bean>
+	
+	<bean id="dwScrapStateAssetValueDao"
+		class="com.wonders.asset.dao.impl.DwScrapStateAssetValueDaoImpl">
+	</bean>
+	
+	<bean id="dwOverhaulProjectStatDao"
+		class="com.wonders.asset.dao.impl.DwOverhaulProjectStatDaoImpl">
+	</bean>
+	
+	<bean id="dwOverhaulMajorTypeDao"
+		class="com.wonders.asset.dao.impl.DwOverhaulMajorTypeDaoImpl">
+	</bean>
+	
+	<bean id="dwOverhaulBudgetYearDao"
+		class="com.wonders.asset.dao.impl.DwOverhaulBudgetYearDaoImpl">
+	</bean>
+	
+	<bean id="dwScrapAssetUseLifeDao"
+		class="com.wonders.asset.dao.impl.DwScrapAssetUseLifeDaoImpl">
+	</bean>
+	
+	<bean id="dwCheckAssetAccuracyYearDao"
+		class="com.wonders.asset.dao.impl.DwCheckAssetAccuracyYearDaoImpl">
+	</bean>
+	
+	<bean id="dwMaterialsConsumeDao"
+		class="com.wonders.asset.dao.impl.DwMaterialsConsumeDaoImpl">
+	</bean>
+	
+	<bean id="dwImportantAssetRankDao"
+		class="com.wonders.asset.dao.impl.DwImportantAssetRankDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetTypeStateDao"
+		class="com.wonders.asset.dao.impl.DwAssetTypeStateDaoImpl">
+	</bean>
+	
+	<bean id="dwAssetImportantRatioDao"
+		class="com.wonders.asset.dao.impl.DwAssetImportantRatioDaoImpl">
+	</bean>
+	
+	<bean id="dwOverhaulLineDao"
+		class="com.wonders.asset.dao.impl.DwOverhaulLineDaoImpl">
+	</bean>
+</beans>

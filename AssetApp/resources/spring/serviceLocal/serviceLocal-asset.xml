@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<!-- enterpriseService -->
+	<bean id="enterpriseService"
+		class="com.wonders.asset.service.impl.EnterpriseServiceImpl">
+	</bean>
+	
+	<bean id="attachmentService"
+		class="com.wonders.asset.service.impl.AttachmentServiceImpl">
+	</bean>
+	
+
+	<bean id="assetService" 
+		class="com.wonders.asset.service.impl.AssetServiceImpl">
+	</bean>
+
+	<bean id="assetTypeService"
+		class="com.wonders.asset.service.impl.AssetTypeServiceImpl">  
+	</bean>
+	
+	<bean id="spareTypeService"
+		class="com.wonders.asset.service.impl.SpareTypeServiceImpl">  
+	</bean>
+
+    <bean id="damageAssetService"
+          class="com.wonders.asset.service.impl.DamageAssetServiceImpl" >
+    </bean>
+
+
+    <!--资产封存（启用）-->
+    <bean id="stopAssetService"
+          class="com.wonders.asset.service.impl.StopAssetServiceImpl">
+    </bean>
+    <!--资产停用-->
+    <bean id="disableAssetService"
+          class="com.wonders.asset.service.impl.DisableAssetServiceImpl">
+    </bean>
+
+    <!--资产调拨-->
+    <bean id="allocateAssetService"
+          class="com.wonders.asset.service.impl.AllocateAssetServiceImpl">
+    </bean>
+    
+    <!--大修更新改造-->
+    <bean id="assetRecordService"
+          class="com.wonders.asset.service.impl.AssetRecordServiceImpl">
+    </bean>
+
+
+    <bean id="borrowAssetService"
+          class="com.wonders.asset.service.impl.BorrowAssetServiceImpl" >
+    </bean>
+    
+    <bean id="landAssetService"
+          class="com.wonders.asset.service.impl.LandAssetServiceImpl" >
+    </bean>
+    <bean id="sparePartsService"
+          class="com.wonders.asset.service.impl.SparePartsServiceImpl" >
+    </bean>
+    <bean id="houseAssetService"
+          class="com.wonders.asset.service.impl.HouseAssetServiceImpl" >
+    </bean>
+    
+    <bean id="areaInfoService"
+          class="com.wonders.asset.service.impl.AreaInfoServiceImpl" >
+    </bean>
+    
+    <bean id="dataStoreService"
+          class="com.wonders.asset.service.impl.DataStoreServiceImpl" >
+    </bean>
+
+	<!-- 设备equipmentService -->
+	<bean id="equipmentService" 
+		class="com.wonders.asset.service.impl.EquipmentServiceImpl">
+	</bean>
+	
+	<!-- 资产价值信息 assetPriceService-->
+	<bean id="assetPriceService" 
+		class="com.wonders.asset.service.impl.AssetPriceServiceImpl">
+	</bean>
+
+	<!-- 线路lineService -->
+	<bean id="lineService" 
+		class="com.wonders.asset.service.impl.LineServiceImpl">
+	</bean>
+
+
+
+    <!--使用单位-->
+    <bean id="unitMasterService" class="com.wonders.asset.service.impl.UnitMaserServiceImpl">
+    </bean>
+
+
+	<!-- 车站stationService -->
+	<bean id="stationService" 
+		class="com.wonders.asset.service.impl.StationServiceImpl">
+	</bean>
+
+	<!-- 使用单位，权属单位organizationService -->
+	<bean id="organizationService" 
+		class="com.wonders.asset.service.impl.OrganizationServiceImpl">
+	</bean>
+	
+	<!-- 维护部门departmentService-->
+	<bean id="departmentService" 
+		class="com.wonders.asset.service.impl.DepartmentServiceImpl">
+	</bean>
+	
+	<!-- 项目projectService-->
+	<bean id="projectService" 
+		class="com.wonders.asset.service.impl.ProjectServiceImpl">
+	</bean>
+	
+	<!-- 日常维护 -->
+	<bean id="assetMaintenanceCostService" 
+		class="com.wonders.asset.service.impl.AssetMaintenanceCostServiceImpl">
+	</bean>
+	
+	<!-- 大修更新改造-->
+	<bean id="assetOverhaulService" 
+		class="com.wonders.asset.service.impl.AssetOverhaulServiceImpl">
+	</bean>
+
+
+	
+	<!-- xml解析服务-->
+	<bean id="xmlDataResolveService" 
+		class="com.wonders.asset.service.impl.XmlDataResolveServiceImpl">
+	</bean>
+
+    <bean id="workPlanService" class="com.wonders.asset.service.impl.WorkPlanServiceImpl">
+
+    </bean>
+
+</beans>

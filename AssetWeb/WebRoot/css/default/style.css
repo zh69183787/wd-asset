@@ -1,0 +1,237 @@
+@charset "utf-8";
+html,body {
+    overflow:auto ;
+    height:100%;
+	_overflow-x:hidden;
+}
+body {
+    *overflow:visible;
+}
+.padBot { padding-bottom:10px;}
+
+.container {
+    min-height:100%;
+    _height:100%;
+    background:#ebeff5;
+    min-width:1340px;
+}
+.tContain {
+	
+}
+.tFooter {
+    display:none;
+}
+.tHeader {
+	_position:relative;
+    height:auto;
+    border-bottom:solid 3px #0b4b80;
+    background:#a6cbe1 url(images/headerbg.jpg) right top no-repeat;
+}
+.th_inMarginWrap {
+	margin:0 auto;
+	width:1280px;
+	height:113px;
+}
+.th_Logo {
+    width:270px;
+    float:left;
+    height:100%;
+    background:center center no-repeat;
+	background-image:url(images/logo_24bitPNG.png);
+	_background-image:url(images/logo_gif.gif);
+	_position:absolute;
+	_left:0;
+	_top:0;
+}
+.th_minNav {
+    height:38px;
+	margin-left:222px;
+	padding-left:70px;
+    display:block;
+	background: url(images/minNavBg.png) right top no-repeat;
+	_background: url(images/minNavBg.gif) right top no-repeat;
+}
+.minLink {
+	margin-right:4px;
+	height:38px;
+	float: left;
+	background:url("") left top no-repeat;
+	padding-left:5px;
+	line-height:36px;
+	font-size:12px;
+	text-decoration:none;
+	_display:inline;
+	color:#000;
+}
+
+.minLink span {
+	height:38px;
+	display:inline-block;
+	background:url("") right top no-repeat;
+	padding-right:5px;
+}
+.minLink span i {
+	padding:0 5px;
+	height:38px;
+	display:inline-block;
+	background:url("") center top no-repeat;
+}
+.minLink.cur,
+.minLink:hover { background-image:url(images/minL.gif)}
+.minLink.cur span,
+.minLink:hover span {background-image:url(images/minR.gif)}
+.minLink.cur span i,
+.minLink:hover span i {background-image:url(images/minC.gif)}
+
+.th_medNav {
+    height:75px;
+    display:block;
+    margin-left:270px;
+}
+.th_medNav li { height:100%; display:inline-block; *display:inline; *zoom:1; float:left; padding-left:7px; background:url(images/navline_1.gif) left bottom no-repeat; margin-right:-1px;}
+.th_medNav li span { height:100%; display:inline-block; padding-right:7px; background:url(images/navline_1.gif) right bottom no-repeat;}
+.th_medNav .navLink { display:inline-block; text-align:center; text-decoration:none; font-size:12px;}
+.th_medNav .navLink i { cursor:pointer; display:inline-block; line-height:18px;}
+.th_medNav .navLink i img { vertical-align:top; margin-top:4px;}
+.th_medNav .navLink i em { cursor:pointer; display:inline-block; width:100%; height:48px; background:center bottom no-repeat;}
+.th_medNav .navLink i em.ico_1 { background-image: url(images/icons_1.gif);}
+.th_medNav .navLink i em.ico_2 { background-image: url(images/icons_1.gif);}
+.th_medNav .navLink i em.ico_3 { background-image: url(images/icons_1.gif);}
+.th_medNav .navLink i em.ico_4 { background-image: url(images/icons_1.gif);}
+
+.th_medNav .navLink, 
+.th_medNav .navLink i { height:69px; background:url("") no-repeat left top;}
+
+.th_medNav .navLink { padding-right:4px; background-position:right bottom; margin-top:2px;}
+.th_medNav .navLink i { padding-left:4px; color:#2b373e;}
+
+.th_medNav .cur .navLink,
+.th_medNav .navLink:hover, 
+.th_medNav .cur .navLink i,
+.th_medNav .navLink:hover i { background-image:url(images/navBg.gif)}
+
+
+.tc_inDataArea {
+    width:1280px;
+    margin:0 auto;
+}
+.ip_title {
+    height:29px;
+    background:#fff url(images/conTitle.gif) left bottom repeat-x;
+    border:solid 1px #aac9e2;
+    border-style:none solid solid;
+    font-size:14px;
+    line-height:29px;
+    text-indent:24px;
+    color:#092968;
+}
+.ip_dropDown {
+	width:24px;
+	height:24px;
+	float:right;
+	margin:2px;
+	background:url(images/conTitleArowBg.gif);
+	cursor:pointer;
+	_display:inline;
+}
+.ip_conRight {
+	padding-top:10px;
+	padding-left:10px;
+	float:right;
+	width:412px;
+	margin-left:-422px;
+	position:relative;
+}
+.ip_conLeftWrap {
+	padding-top:10px;
+	float:right;
+	width:100%;
+}
+.ip_conLeft {
+	margin-right:422px;
+}
+
+/* s圆角盒子模型 */
+.radiuBox {}
+.radiuBoxTopR,
+.radiuBoxTopL { background:url(images/rBoxTop.gif) left top no-repeat; display:block; height:5px; font:0/0 a;}
+.radiuBoxTopR { background-position:right bottom; padding-right:5px; margin-bottom:-4px; position:relative;}
+.radiuBoxTopL { background-position:left top; padding-left:5px;}
+
+.radiuBoxCen { background:#fff; border:1px #c0c0c0; border-style:none solid;}
+.radiuBox.noBorder .radiuBoxCen{ border:none; _margin-bottom:-1px;}
+
+.radiuBoxBotR,
+.radiuBoxBotL { background:url(images/rBoxBot.gif) left top no-repeat; display:block; height:5px; font:0/0 a;}
+.radiuBoxBotR { background-position:right bottom; padding-right:5px; margin-top:-4px; position:relative;}
+.radiuBoxBotL { background-position:left top; padding-left:5px;}
+/* e圆角盒子模型  */
+
+.rBoxTitle_1 { background:url(images/rBoxTit.gif) left center repeat-x; padding-left:10px; color:#000; font-weight:bold; font-size:14px; line-height:34px; height:34px; border:1px #c0c0c0; border-style:none none solid;}
+.rBoxTitle_1 .rBtb { display:inline-block; height:15px; width:5px; background:#2b81e5; margin-right:7px; float:left; margin-top:10px;}
+.noBorder .rBoxTitle_1 { border-style:none solid}
+.noBorder .radiuBoxBotR { margin-top:-5px;}
+.tabele_sty_1 {
+	border-collapse:collapse;
+	_border-bottom:solid 1px #fff;
+	margin-bottom:-1px;
+}
+.tabele_sty_1 th,
+.tabele_sty_1 td {
+	border:1px #c0c0c0;
+	border-style:solid;
+}
+.tabele_sty_1 th {
+	height: 30px;
+	line-height:normal;
+	vertical-align:middle;
+	text-align: center;
+	font-size: 12px;
+	font-weight: normal;
+	background:url(images/rBoxTit2.gif) left center repeat-x;
+}
+.tabele_sty_1 td {
+	text-align:center;
+}
+.tabele_sty_1 tr.fixheight_1 td { height:98px; vertical-align:middle;}
+.tabele_sty_1 tr.fixheight_2 td { height:71px; border-bottom:none; vertical-align:middle;}
+.tabele_sty_1 tr.fixheight_3 td { height:27px; border-top:none; vertical-align:middle; background:#f4f4f4; }
+
+.tabele_sty_1 .bigFont_1	{ line-height:normal; font-size:24px; color:#ff6200; margin:0 3px;}
+.tabele_sty_1 .smallFont_1	{ line-height:normal; font-size:12px; color:#4a4a4a;}
+.tabele_sty_1 .bigFont_2	{ line-height:normal; font-size:12px; color:#005b1e; margin:0 3px;}
+.tabele_sty_1 .smallFont_2	{ line-height:normal; font-size:12px; color:#404040;}
+.tabele_sty_1 tr.minTrTitle th {font-weight:bold; height:19px; padding:0 6px; text-align:left; background:url(images/rBoxTit3.gif);}
+.tabele_sty_1 tr.minTrTitle td { text-align:right; vertical-align:middle; font-size:12px; padding:0 6px; color:#ff5c1a; background:url(images/rBoxTit3.gif);}
+.tabele_sty_1 tr.minTrTitle a { font-size:12px; color:#054deb; text-decoration:none;}
+.tabele_sty_1 tr.minDataArea th { height:26px; vertical-align:middle; background:#fff; border-style:none solid;padding:0 22px; text-align:left;}
+.tabele_sty_1 tr.minDataArea td { height:26px; vertical-align:middle; background:#fff; border-style:none solid;padding:0 6px; text-align:right; font-size:12px;}
+.rowColor tr:nth-child(odd) td { background:#fff;}
+.rowColor tr:nth-child(even) td { background:#f4f4f4}
+.rowColor td { border-style:none solid; height:33px; vertical-align:middle; line-height:normal;text-align:left; padding:0 8px; font-size:12px;}
+.tabele_sty_1 .th_txaL th { text-align:left; padding:0 8px; color:#000;}
+.tabele_sty_1 tfoot td { height:31px; vertical-align:middle; text-align:center;}
+.tabele_sty_1 .labelUnit { float:right; font-size:12px; color:#595f65;}
+.footerPages { font-size:0; letter-spacing:-3px;}
+.footerPages .pageObj { font-size:12px; letter-spacing:normal; vertical-align:middle; margin:0 2px;}
+.footerPages .pageObj i { color:#ff8c1f;}
+.footerPages .pageBtnObj {
+	font-size: 12px;
+	color: #1e1e1e;
+	cursor: pointer;
+ 	padding: 0;
+	border: none;
+	width: 60px;
+	height: 24px;
+	background: url(images/pageBtnbg.gif);
+	*overflow-x:visible;
+	*border:0; 		
+}
+font.org { color:#ff5a1f}
+.chatrWrap_1 {height:259px;}
+.chatrWrap_2 { height:173px;}
+.chatrWrap_3 { height:203px;}
+.halfbox_1,
+.halfbox_2 { width:424px;}
+.halfbox_1 { float:left;}
+.halfbox_2 { float:right;}

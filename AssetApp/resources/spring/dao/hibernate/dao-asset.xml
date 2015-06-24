@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+    <bean id="damageAssetDao" class="com.wonders.asset.dao.impl.DamageAssetDaoImpl">
+    </bean>
+    <bean id="attachmentDao" class="com.wonders.asset.dao.impl.AttachmentDaoImpl">
+    </bean>
+    <bean id="stopAssetDao" class="com.wonders.asset.dao.impl.StopAssetDaoImpl">   
+    </bean>
+    <bean id="disableAssetDao" class="com.wonders.asset.dao.impl.DisableAssetDaoImpl">
+    </bean>  
+    <bean id="assetRecordDao" class="com.wonders.asset.dao.impl.AssetRecordDaoImpl">   
+    </bean>
+    <bean id="allocateAssetDao" class="com.wonders.asset.dao.impl.AllocateAssetDaoImpl">  
+    </bean>     
+
+	<bean id="enterpriseDao"
+		class="com.wonders.asset.dao.impl.EnterpriseDaoImpl">
+	</bean>
+	
+	<bean id="assetDao" class="com.wonders.asset.dao.impl.AssetDaoImpl">
+		<property name="sessionFactory2" ref="sessionFactory2"/>
+	</bean>
+	
+	<bean id="assetOwnerDao"
+		class="com.wonders.asset.dao.impl.AssetOwnerDaoImpl">
+	</bean>
+	
+	<bean id="assetTypeDao"
+		class="com.wonders.asset.dao.impl.AssetTypeDaoImpl">
+	</bean>
+	
+	<bean id="spareTypeDao"
+		class="com.wonders.asset.dao.impl.SpareTypeDaoImpl">
+	</bean>
+	
+	<bean id="departmentDao"
+		class="com.wonders.asset.dao.impl.DepartmentDaoImpl">
+	</bean>
+	
+	<bean id="organizationDao"
+		class="com.wonders.asset.dao.impl.OrganizationDaoImpl">
+	</bean>
+	
+	<bean id="unitMasterDao"
+		class="com.wonders.asset.dao.impl.UnitMasterDaoImpl">
+	</bean>	
+	
+	<bean id="assetPriceDao"
+		class="com.wonders.asset.dao.impl.AssetPriceDaoImpl">
+	</bean>	
+	
+	<bean id="assetStateDao"
+		class="com.wonders.asset.dao.impl.AssetStateDaoImpl">
+	</bean>		
+	
+	<bean id="contractDao"
+		class="com.wonders.asset.dao.impl.ContractDaoImpl">
+	</bean>	
+	
+	<bean id="projectDao"
+		class="com.wonders.asset.dao.impl.ProjectDaoImpl">
+	</bean>
+	
+	<bean id="equipmentDao"
+		class="com.wonders.asset.dao.impl.EquipmentDaoImpl">
+	</bean>
+	
+	<bean id="lineDao"
+		class="com.wonders.asset.dao.impl.LineDaoImpl">
+	</bean>
+	
+	<bean id="stationDao"
+		class="com.wonders.asset.dao.impl.StationDaoImpl">
+	</bean>
+	
+	<bean id="assetProjectRelationDao"
+		class="com.wonders.asset.dao.impl.AssetProjectRelationDaoImpl">
+	</bean>
+	
+	<bean id="assetMaintenanceCostDao"
+		class="com.wonders.asset.dao.impl.AssetMaintenanceCostDaoImpl">
+	</bean>
+	
+	<bean id="assetOverhaulDao"
+		class="com.wonders.asset.dao.impl.AssetOverhaulDaoImpl">
+	</bean>
+	
+	<bean id="taskInventoryDao"
+		class="com.wonders.asset.dao.impl.TaskInventoryDaoImpl">
+	</bean>
+
+	<bean id="borrowAssetDao"
+		class="com.wonders.asset.dao.impl.BorrowAssetDaoImpl">
+	</bean>
+
+	<bean id="landAssetDao"
+		class="com.wonders.asset.dao.impl.LandAssetDaoImpl">
+	</bean>
+	<bean id="sparePartsDao"
+		class="com.wonders.asset.dao.impl.SparePartsDaoImpl">
+	</bean>
+	
+	<bean id="houseAssetDao"
+		class="com.wonders.asset.dao.impl.HouseAssetDaoImpl">
+	</bean>
+	
+	<bean id="areaInfoDao"
+		class="com.wonders.asset.dao.impl.AreaInfoDaoImpl">
+	</bean>
+
+
+
+    <bean id="workPlanDao"
+          class="com.wonders.asset.dao.impl.WorkPlanDaoImpl">
+
+    </bean>
+
+
+    <bean id="projectLineValueDao"
+          class="com.wonders.asset.dao.impl.DwAssetProjectLineValueDaoImpl">
+
+          </bean>
+
+
+
+</beans>

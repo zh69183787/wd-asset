@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="jeecms" namespace="/jeecms" extends="struts-default">
+    
+        <action name="getJeecmsInfo" class="jeecmsAction" method="getJeecmsInfo"/>
+        
+        <action name="findStfbNewsByPage" class="jeecmsAction" method="findStfbNewsByPage">
+        	<result name="success">/jsp/jeecms/newsList.jsp</result>
+        </action>
+        <action name="findByPage" class="jeecmsAction" method="findByPage">
+        	<result name="success">/jsp/jeecms/newsList.jsp</result>
+        </action>
+        
+        <action name="findNewsByPage" class="jeecmsAction" method="findNewsByPage">
+        	<result name="success">/jsp/jeecms/newsList.jsp</result>
+        </action>
+        
+	</package>	
+</struts>

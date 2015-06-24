@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<!-- 用户mysql jdbc dao -->
+	<bean id="userTreeDao"
+		class="com.huateng.application.dao.jdbc.mysql.UserTreeDaoImpl">
+	</bean>
+	
+	<!-- 资源mysql jdbc dao -->
+	<bean id="resourceTreeDao"
+		class="com.huateng.application.dao.jdbc.mysql.ResourceTreeDaoImpl">
+	</bean>
+	
+	<!-- 组mysql jdbc dao 
+	<bean id="groupTreeDao"
+		class="com.huateng.application.dao.jdbc.db2.GroupTreeDaoImpl">
+	</bean>
+	-->
+</beans>

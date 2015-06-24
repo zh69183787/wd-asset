@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 要调用的工作类 -->
+	<bean id="quartzJob" class="com.wonders.asset.service.impl.QuartzJobServiceImpl" />
+
+	<!-- 定义调用对象和调用对象的方法 -->
+
+	<bean id="calculateDwAssetEntityStat"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="quartzJob" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="calculateDwAssetEntityStat" />
+	</bean>
+	<bean id="calculateDwHomePageStat"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwHomePageStat" />
+	</bean>
+	<bean id="calculateDwProjectCompanyPrice"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwProjectCompanyPrice" />
+	</bean>
+	<bean id="calculateDwAssetLineValue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetLineValue" />
+	</bean>
+	<bean id="calculateDwAssetUseOrganizationValue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetUseOrganizationValue" />
+	</bean>
+	<bean id="calculateDwProjectPriceByYear"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwProjectPriceByYear" />
+	</bean>
+	<bean id="calculateDwImportantAssetRank"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwImportantAssetRank" />
+	</bean>
+	<bean id="calculateDwOverhaulProjectStat"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwOverhaulProjectStat" />
+	</bean>
+	<bean id="calculateDwOverhaulBudgetYear"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwOverhaulBudgetYear" />
+	</bean>
+	<bean id="calculateDwAssetImportantRatio"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetImportantRatio" />
+	</bean>
+	<bean id="calculateDwScrapAssetUseLife"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwScrapAssetUseLife" />
+	</bean>
+	<bean id="calculateDwAssetTypeState"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetTypeState" />
+	</bean>
+	<bean id="calculateDwOverhaulLine"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwOverhaulLine" />
+	</bean>
+	<bean id="calculateDwOverhaulMajorType"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwOverhaulMajorType" />
+	</bean>
+	<bean id="calculateDwAssetOwnerOrganizationValue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetOwnerOrganizationValue" />
+	</bean>
+	<bean id="calculateDwAssetProjectLineValue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob" />
+		<property name="targetMethod" value="calculateDwAssetProjectLineValue" />
+	</bean>
+	<!-- AssetObject To Asset -->
+	<bean id="transAssetObjectToAssetInfo" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject" ref="quartzJob" />
+        <property name="targetMethod" value="transAssetObjectToAssetInfo"/>
+	</bean>	
+	<!-- stpt sync -->
+	<bean id="syncHandle" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject" ref="quartzJob" />
+        <property name="targetMethod" value="syncHandle"/>
+	</bean>
+    <bean id="importData" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="quartzJob" />
+        <property name="targetMethod" value="importData"/>
+    </bean>
+
+    <bean id="sysncSpareData" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="quartzJob" />
+        <property name="targetMethod" value="sysncSpareData"/>
+    </bean>
+
+	<!-- 定义触发时间 -->
+	
+    <bean id="doTimeSysncSpareData" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sysncSpareData" />
+		<property name="cronExpression" value="0 30 0 ? * *" />
+	</bean> 
+	
+	<bean id="doTimeDwHomePageStat" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwHomePageStat" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwProjectCompanyPrice" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwProjectCompanyPrice" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwAssetLineValue" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetLineValue" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwAssetUseOrganizationValue" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetUseOrganizationValue" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwProjectPriceByYear" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwProjectPriceByYear" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwImportantAssetRank" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwImportantAssetRank" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwOverhaulProjectStat" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwOverhaulProjectStat" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwOverhaulBudgetYear" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwOverhaulBudgetYear" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwAssetImportantRatio" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetImportantRatio" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwScrapAssetUseLife" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwScrapAssetUseLife" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwAssetTypeState" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetTypeState" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwOverhaulLine" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwOverhaulLine" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwOverhaulMajorType" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwOverhaulMajorType" />
+		<property name="cronExpression" value="0 30 0 ? * 2,4,6" />
+	</bean>
+	<bean id="doTimeDwAssetEntityStat" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetEntityStat" />
+		<property name="cronExpression" value="0 59 23 L * ?" />
+	</bean>
+	<bean id="doTimeDwAssetOwnerOrganizationValue" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetOwnerOrganizationValue" />
+		<property name="cronExpression" value="0 59 23 L * ?" />
+	</bean>
+	<bean id="doTimeDwAssetProjectLineValue" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="calculateDwAssetProjectLineValue" />
+		<property name="cronExpression" value="0 59 23 L * ?" />
+	</bean>
+	<!-- AssetObject To Asset -->
+	<bean id="doTimeTransAssetObjectToAssetInfo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="transAssetObjectToAssetInfo" />
+        <property name="cronExpression" value="0 0 0 1/3 * ?" />
+    </bean>
+    <!-- stpt sync -->
+	<bean id="doTimeSyncHandle" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="syncHandle" />
+        <property name="cronExpression" value="0 0 0 ? * 2,4,6" />
+    </bean>
+    <bean id="doTimeImportData" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="importData" />
+        <property name="cronExpression" value="0 10 00 L * ?" />
+        <!--  <property name="cronExpression" value="0 03 10 ? * *" />-->
+    </bean>
+
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="doTimeDwHomePageStat" />
+				<ref bean="doTimeDwProjectCompanyPrice" />
+				<ref bean="doTimeDwAssetLineValue" />
+				<ref bean="doTimeDwAssetUseOrganizationValue" />
+				<ref bean="doTimeDwProjectPriceByYear" />
+				<ref bean="doTimeDwImportantAssetRank" />
+				<ref bean="doTimeDwOverhaulProjectStat" />
+				<ref bean="doTimeDwOverhaulBudgetYear" />
+				<ref bean="doTimeDwAssetImportantRatio" />
+				<ref bean="doTimeDwScrapAssetUseLife" />
+				<ref bean="doTimeDwAssetTypeState" />
+				<ref bean="doTimeDwOverhaulLine" />
+				<ref bean="doTimeDwOverhaulMajorType" />
+				<ref bean="doTimeDwAssetEntityStat" />
+				<ref bean="doTimeDwAssetOwnerOrganizationValue" />
+				<ref bean="doTimeDwAssetProjectLineValue" />
+				<ref bean="doTimeTransAssetObjectToAssetInfo"/>
+				<ref bean="doTimeSyncHandle"/>
+                <ref bean="doTimeImportData"/>
+				<ref bean="doTimeSysncSpareData"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

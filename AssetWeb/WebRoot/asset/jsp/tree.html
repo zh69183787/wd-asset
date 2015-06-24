@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<head>
+<meta charset=utf-8 />
+<title>Untitled Document</title>
+	<link rel="stylesheet" href="css/formalize.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link href="css/pages.css" rel="stylesheet" type="text/css">
+	<link href="css/imgs.css" rel="stylesheet" type="text/css">
+	<script src="js/html5.js"></script>
+		<script src="js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            var $tbInfo = $(".search_1 input:text");
+            $tbInfo.each(function () {
+                $(this).focus(function () {
+                    $(this).attr("placeholder", "");
+                });
+            });
+			
+			var $tblAlterRow = $(".table_1 tbody tr:odd");
+			if ($tblAlterRow.length > 0)
+				$tblAlterRow.css("background","#f7f9fc");	
+			//$("#content").width($(window).width()-210);		
+        });
+    </script>
+</head>
+
+<body>
+    <div class="body">
+        <header>
+            <div class="exchange"><a href="#">收起</a></div>
+            <menu>
+                <ul class="tabs_1 clearfix">
+                    <li><a href="#">主页</a></li>
+                    <li class="selected"><a href="#">紧急预案</a></li>
+                    <li><a href="#">其他</a></li>
+                </ul>
+                <nav>
+                    <ul class="clearfix">
+                        <li class="big">
+                            <a href="#">
+                                <dl class="selected">
+                                    <dt class="big"><img src="css/default/images/contractInfo_48.png" width="48" height="48" alt="123"></dt>
+                                    <dd>3445</dd>
+                                </dl>
+                            </a>
+                        </li>
+                        <li class="big">
+                            <a href="#">
+                                <dl>
+                                    <dt class="big"><img src="css/default/images/flightPlan_48.png" width="48" height="48" alt="her"></dt>
+                                    <dd>3445</dd>
+                                </dl>
+                            </a>
+                        </li>
+                        <li class="big">
+                            <dl>
+                                <dt class="big">123</dt>
+                                <dd>3445</dd>
+                            </dl>
+                        </li>
+                        <li class="big">
+                            <a href="#">
+                                <dl>
+                                    <dt class="big">123</dt>
+                                    <dd>3445</dd>
+                                </dl>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </menu>
+        </header>
+    	<!--bar-->
+    	<div class="bar clearfix">
+        	<ul class="fl select clearfix">
+            	<li><a href="#">折叠</a></li>
+            	<li class="selected"><a href="#">展开</a></li>
+            </ul>
+            <ul class="fr clearfix lit_but">
+            	<li><a href="#">折叠</a></li>
+            	<li><a href="#">折叠</a></li>
+            </ul>
+        </div>
+    	<!--bar end-->
+        <div class="clearfix">
+        	<!--tree-->
+            <div class="w18p fl tree">
+              <p>tree</p>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
+            </div>
+            <!--tree end-->
+          <div id="content" class="fl w81p">
+            <form name="form1" method="post" action="">
+              <div class="clearfix">
+              	<div class="fl w50p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">事件名称</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w49p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">事件类型</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w50p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">事件级别</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w49p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">事件状态</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w50p clearfix b_bor">
+                	<label class="fl p5 w120 lable_bg" for="textfield">报告人</label>
+                	<div class="fl p5 w65p">
+                    	<input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w49p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">报告时间</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w50p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">报告部门</label>
+                	<div class="fl p5 w65p">
+                    	<input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w49p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">报告电话</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w50p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">记录人</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+                <div class="fl w49p clearfix b_bor">
+                    <label class="fl p5 w120 lable_bg" for="textfield">记录时间</label>
+                	<div class="fl p5 w65p">
+                        <input type="text" name="textfield" id="textfield">
+                	</div>
+                </div>
+              </div>
+              <div class="clearfix b_bor">
+                  <label for="textfield" class="fl p5 w120 lable_bg">记录时间</label>
+                  <div class="fl p5 w70p">
+                    <textarea id="textarea" name="textarea" rows="5" placeholder="This is an example of HTML5 placeholder text."></textarea>
+                  </div>
+    			</div>
+                <div class="t_c p5">
+                    <input name="input" type="button" value="确认">
+                </div>
+            </form>
+          </div>
+        </div>
+    	<!--footer-->
+        <footer class="plr8">123</footer>
+    	<!--footer end-->
+    </div>
+</body>
+</html>

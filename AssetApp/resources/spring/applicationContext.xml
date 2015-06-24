@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+    default-autowire="byName">
+
+
+
+    <!-- Hibernate annotation  数据库配置 -->
+    <import resource="applicationContext-dataAccess-hibernate-annotation.xml" /> 
+    
+    <!-- Ibatis 数据库配置 
+    <import resource="applicationContext-dataAccess-ibatis.xml" /> -->
+        
+    <!-- action配置 -->
+    <import resource="applicationContext-action.xml" />
+
+    <!-- dao配置--> 
+    <import resource="application-dao.xml" />
+    
+    <!-- SpringService配置--> 
+    <import resource="application-service-local.xml" />
+    
+    <!-- Spring定时任务配置--> 
+    <!--<import resource="schedule/applicationContext-quartz.xml" />   -->
+    
+</beans>

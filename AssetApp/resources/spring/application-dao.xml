@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+    default-autowire="byName">
+    
+    <!-- mysql jdbc 
+    <import resource="dao/jdbc/mysql/dao-application.xml" /> -->
+    
+    <!-- oracle jdbc 
+    <import resource="dao/jdbc/oracle/dao-application.xml" /> -->
+    
+    <!-- db2 jdbc 
+    <import resource="dao/jdbc/db2/dao-application.xml" /> -->
+    
+    <!-- ibatis 
+    <import resource="dao/ibatis/dao-application.xml" /> -->
+    
+    <!-- jpa 
+    <import resource="dao/jpa/dao-application.xml" /> 
+    -->
+    
+     <!-- asset -->
+    <import resource="dao/hibernate/dao-asset.xml"/>
+    
+    <!-- report -->
+    <import resource="dao/hibernate/dao-report.xml"/>
+    
+    <import resource="dao/hibernate/dao-jeecms.xml"/>
+    
+    
+     <import resource="dao/hibernate/dao-task.xml"/>
+</beans>

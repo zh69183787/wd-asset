@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="AssetWeb"
+  id="myeclipse.1249472775017"
+  context-root="/AssetWeb"
+  j2ee-spec="1.4"
+  archive="AssetWeb.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,809 @@
+
+
+--转换中文
+UPDATE ASSET_OBJECT O
+   SET O.当前使用状态     = DECODE(O.当前使用状态,
+                             'Use',
+                             '使用',
+                             'BlockUp',
+                             '停用',
+                             'Allocate',
+                             '封存',
+                             'Scrap',
+                             '报废',
+                             'SellOff',
+                             '待报废',O.当前使用状态),
+       O.折旧方法         = DECODE(O.折旧方法,
+                               'LineMethod',
+                               '直线法',
+                               'UOPMethod',
+                               '工作量法',
+                               'PourYearSumMethod',
+                               '倒年数总和法',O.折旧方法),
+       O.铭牌张贴位置     = DECODE(O.铭牌张贴位置,
+                             'UpperLeft',
+                             '左上',
+                             'LeftDown',
+                             '左下',
+                             'Middle',
+                             '中',
+                             'UpperRight',
+                             '右上',
+                             'RightDown',
+                             '右下',
+                             'Plate',
+                             '铭牌板',O.铭牌张贴位置),
+       O.竣工移交资产类型 = DECODE(O.竣工移交资产类型,
+                           'Initial',
+                           '初始',
+                           'Newly',
+                           '新增',
+                           'Renovate',
+                           '更新',O.竣工移交资产类型),
+       O.项目资产标示     = DECODE(O.项目资产标示,
+                             'HeavyRepair',
+                             '大修',
+                             'Remould',
+                             '改造',O.项目资产标示);
+
+--临时
+UPDATE ASSET_OBJECT O
+   SET (资产编号,
+        资产名称,
+        项目名称,
+        项目编号,
+        项目合同编码,
+        大类编码,
+        大类名称,
+        中类编码,
+        中类名称,
+        资产类型,
+        类型名称,
+        单位,
+        数量,
+        规格型号,
+        产地,
+        生产厂商,
+        供应商,
+        出厂日期,
+        供应日期,
+        安装地点,
+        权属单位编号,
+        权属单位名称,
+        权属负责人,
+        权属负责人名称,
+        使用单位编号,
+        使用单位名称,
+        使用负责人,
+        使用负责人名称,
+        维护部门编号,
+        维护部门名称,
+        资产位置编码,
+        资产位置,
+        开始使用时间,
+        停止使用时间,
+        批准报废时间,
+        移交时间,
+        当前使用状态,
+        资产图片名称,
+        设计使用年限,
+        预期使用寿命,
+        保修期至,
+        大修频次,
+        出厂价,
+        合同价,
+        原值,
+        资料及清单,
+        折旧方法,
+        累计折旧,
+        资产净值,
+        铭牌张贴位置,
+        设备清单,
+        竣工移交资产类型,
+        项目资产标示,
+        资产交付日期,
+        资产决算价,
+        立项或可研批复文号,
+        备注,
+        创建时间,
+        修改时间,
+        线路编码,
+        线路名称,
+        车站编码,
+        车站名称) =
+       (SELECT 资产编号,
+               资产名称,
+               项目名称,
+               项目编号,
+               项目合同编码,
+               大类编码,
+               大类名称,
+               中类编码,
+               中类名称,
+               资产类型,
+               类型名称,
+               单位,
+               数量,
+               规格型号,
+               产地,
+               生产厂商,
+               供应商,
+               出厂日期,
+               供应日期,
+               安装地点,
+               权属单位编号,
+               权属单位名称,
+               权属负责人,
+               权属负责人名称,
+               使用单位编号,
+               使用单位名称,
+               使用负责人,
+               使用负责人名称,
+               维护部门编号,
+               维护部门名称,
+               资产位置编码,
+               资产位置,
+               开始使用时间,
+               停止使用时间,
+               批准报废时间,
+               移交时间,
+               当前使用状态,
+               资产图片名称,
+               设计使用年限,
+               预期使用寿命,
+               保修期至,
+               大修频次,
+               出厂价,
+               合同价,
+               原值,
+               资料及清单,
+               折旧方法,
+               累计折旧,
+               资产净值,
+               铭牌张贴位置,
+               设备清单,
+               竣工移交资产类型,
+               项目资产标示,
+               资产交付日期,
+               资产决算价,
+               立项或可研批复文号,
+               备注,
+               创建时间,
+               修改时间,
+               线路编码,
+               线路名称,
+               车站编码,
+               车站名称
+          FROM ASSET_OBJECT_RECORD1 T
+         WHERE T.资产编号 = O.资产编号)
+ WHERE EXISTS
+ (SELECT 1 FROM ASSET_OBJECT_RECORD1 WHERE O.资产编号 = 资产编号);
+
+
+INSERT INTO ASSET_OBJECT
+  (资产编号,
+   资产名称,
+   项目名称,
+   项目编号,
+   项目合同编码,
+   大类编码,
+   大类名称,
+   中类编码,
+   中类名称,
+   资产类型,
+   类型名称,
+   单位,
+   数量,
+   规格型号,
+   产地,
+   生产厂商,
+   供应商,
+   出厂日期,
+   供应日期,
+   安装地点,
+   权属单位编号,
+   权属单位名称,
+   权属负责人,
+   权属负责人名称,
+   使用单位编号,
+   使用单位名称,
+   使用负责人,
+   使用负责人名称,
+   维护部门编号,
+   维护部门名称,
+   资产位置编码,
+   资产位置,
+   开始使用时间,
+   停止使用时间,
+   批准报废时间,
+   移交时间,
+   当前使用状态,
+   资产图片名称,
+   设计使用年限,
+   预期使用寿命,
+   保修期至,
+   大修频次,
+   出厂价,
+   合同价,
+   原值,
+   资料及清单,
+   折旧方法,
+   累计折旧,
+   资产净值,
+   铭牌张贴位置,
+   设备清单,
+   竣工移交资产类型,
+   项目资产标示,
+   资产交付日期,
+   资产决算价,
+   立项或可研批复文号,
+   备注,
+   创建时间,
+   修改时间,
+   线路编码,
+   线路名称,
+   车站编码,
+   车站名称)
+  SELECT 资产编号,
+         资产名称,
+         项目名称,
+         项目编号,
+         项目合同编码,
+         大类编码,
+         大类名称,
+         中类编码,
+         中类名称,
+         资产类型,
+         类型名称,
+         单位,
+         数量,
+         规格型号,
+         产地,
+         生产厂商,
+         供应商,
+         出厂日期,
+         供应日期,
+         安装地点,
+         权属单位编号,
+         权属单位名称,
+         权属负责人,
+         权属负责人名称,
+         使用单位编号,
+         使用单位名称,
+         使用负责人,
+         使用负责人名称,
+         维护部门编号,
+         维护部门名称,
+         资产位置编码,
+         资产位置,
+         开始使用时间,
+         停止使用时间,
+         批准报废时间,
+         移交时间,
+         当前使用状态,
+         资产图片名称,
+         设计使用年限,
+         预期使用寿命,
+         保修期至,
+         大修频次,
+         出厂价,
+         合同价,
+         原值,
+         资料及清单,
+         折旧方法,
+         累计折旧,
+         资产净值,
+         铭牌张贴位置,
+         设备清单,
+         竣工移交资产类型,
+         项目资产标示,
+         资产交付日期,
+         资产决算价,
+         立项或可研批复文号,
+         备注,
+         创建时间,
+         修改时间,
+         线路编码,
+         线路名称,
+         车站编码,
+         车站名称
+    FROM ASSET_OBJECT_RECORD1 O
+   WHERE NOT EXISTS (SELECT 1 FROM ASSET_OBJECT WHERE O.资产编号 = 资产编号);
+
+
+UPDATE ASSET_OBJECT O
+   SET (资产编号,
+        资产名称,
+        项目名称,
+        项目编号,
+        项目合同编码,
+        大类编码,
+        大类名称,
+        中类编码,
+        中类名称,
+        资产类型,
+        类型名称,
+        单位,
+        数量,
+        规格型号,
+        产地,
+        生产厂商,
+        供应商,
+        出厂日期,
+        供应日期,
+        安装地点,
+        权属单位编号,
+        权属单位名称,
+        权属负责人,
+        权属负责人名称,
+        使用单位编号,
+        使用单位名称,
+        使用负责人,
+        使用负责人名称,
+        维护部门编号,
+        维护部门名称,
+        资产位置编码,
+        资产位置,
+        开始使用时间,
+        停止使用时间,
+        批准报废时间,
+        移交时间,
+        当前使用状态,
+        资产图片名称,
+        设计使用年限,
+        预期使用寿命,
+        保修期至,
+        大修频次,
+        出厂价,
+        合同价,
+        原值,
+        资料及清单,
+        折旧方法,
+        累计折旧,
+        资产净值,
+        铭牌张贴位置,
+        设备清单,
+        竣工移交资产类型,
+        项目资产标示,
+        资产交付日期,
+        资产决算价,
+        立项或可研批复文号,
+        备注,
+        创建时间,
+        修改时间,
+        线路编码,
+        线路名称,
+        车站编码,
+        车站名称) =
+       (SELECT 资产编号,
+               资产名称,
+               项目名称,
+               项目编号,
+               项目合同编码,
+               大类编码,
+               大类名称,
+               中类编码,
+               中类名称,
+               资产类型,
+               类型名称,
+               单位,
+               数量,
+               规格型号,
+               产地,
+               生产厂商,
+               供应商,
+               出厂日期,
+               供应日期,
+               安装地点,
+               权属单位编号,
+               权属单位名称,
+               权属负责人,
+               权属负责人名称,
+               使用单位编号,
+               使用单位名称,
+               使用负责人,
+               使用负责人名称,
+               维护部门编号,
+               维护部门名称,
+               资产位置编码,
+               资产位置,
+               开始使用时间,
+               停止使用时间,
+               批准报废时间,
+               移交时间,
+               当前使用状态,
+               资产图片名称,
+               设计使用年限,
+               预期使用寿命,
+               保修期至,
+               大修频次,
+               出厂价,
+               合同价,
+               原值,
+               资料及清单,
+               折旧方法,
+               累计折旧,
+               资产净值,
+               铭牌张贴位置,
+               设备清单,
+               竣工移交资产类型,
+               项目资产标示,
+               资产交付日期,
+               资产决算价,
+               立项或可研批复文号,
+               备注,
+               创建时间,
+               修改时间,
+               线路编码,
+               线路名称,
+               车站编码,
+               车站名称
+          FROM ASSET_OBJECT_RECORD2 T
+         WHERE T.资产编号 = O.资产编号)
+ WHERE EXISTS
+ (SELECT 1 FROM ASSET_OBJECT_RECORD2 WHERE O.资产编号 = 资产编号);
+
+
+INSERT INTO ASSET_OBJECT
+  (资产编号,
+   资产名称,
+   项目名称,
+   项目编号,
+   项目合同编码,
+   大类编码,
+   大类名称,
+   中类编码,
+   中类名称,
+   资产类型,
+   类型名称,
+   单位,
+   数量,
+   规格型号,
+   产地,
+   生产厂商,
+   供应商,
+   出厂日期,
+   供应日期,
+   安装地点,
+   权属单位编号,
+   权属单位名称,
+   权属负责人,
+   权属负责人名称,
+   使用单位编号,
+   使用单位名称,
+   使用负责人,
+   使用负责人名称,
+   维护部门编号,
+   维护部门名称,
+   资产位置编码,
+   资产位置,
+   开始使用时间,
+   停止使用时间,
+   批准报废时间,
+   移交时间,
+   当前使用状态,
+   资产图片名称,
+   设计使用年限,
+   预期使用寿命,
+   保修期至,
+   大修频次,
+   出厂价,
+   合同价,
+   原值,
+   资料及清单,
+   折旧方法,
+   累计折旧,
+   资产净值,
+   铭牌张贴位置,
+   设备清单,
+   竣工移交资产类型,
+   项目资产标示,
+   资产交付日期,
+   资产决算价,
+   立项或可研批复文号,
+   备注,
+   创建时间,
+   修改时间,
+   线路编码,
+   线路名称,
+   车站编码,
+   车站名称)
+  SELECT 资产编号,
+         资产名称,
+         项目名称,
+         项目编号,
+         项目合同编码,
+         大类编码,
+         大类名称,
+         中类编码,
+         中类名称,
+         资产类型,
+         类型名称,
+         单位,
+         数量,
+         规格型号,
+         产地,
+         生产厂商,
+         供应商,
+         出厂日期,
+         供应日期,
+         安装地点,
+         权属单位编号,
+         权属单位名称,
+         权属负责人,
+         权属负责人名称,
+         使用单位编号,
+         使用单位名称,
+         使用负责人,
+         使用负责人名称,
+         维护部门编号,
+         维护部门名称,
+         资产位置编码,
+         资产位置,
+         开始使用时间,
+         停止使用时间,
+         批准报废时间,
+         移交时间,
+         当前使用状态,
+         资产图片名称,
+         设计使用年限,
+         预期使用寿命,
+         保修期至,
+         大修频次,
+         出厂价,
+         合同价,
+         原值,
+         资料及清单,
+         折旧方法,
+         累计折旧,
+         资产净值,
+         铭牌张贴位置,
+         设备清单,
+         竣工移交资产类型,
+         项目资产标示,
+         资产交付日期,
+         资产决算价,
+         立项或可研批复文号,
+         备注,
+         创建时间,
+         修改时间,
+         线路编码,
+         线路名称,
+         车站编码,
+         车站名称
+    FROM asset_object_record2 O
+   WHERE NOT EXISTS (SELECT 1 FROM ASSET_OBJECT WHERE O.资产编号 = 资产编号);
+
+
+--更新为空的字段信息
+update  asset_object set 大类编码 = (select all_code from t_asset_type where name = 大类名称 and length(all_code)=2) where 大类编码 is null;
+update  asset_object set 中类编码 = (select all_code from t_asset_type where name = 中类名称 and all_code  like 大类编码||'%' and length(all_code)=4) where 中类编码 is null;
+update  asset_object set 资产类型 = (select all_code from t_asset_type where name = 类型名称 and all_code like 中类编码||'%' and length(all_code)=6) where 资产类型 is null;
+update  asset_object set 权属单位名称 = (select name from t_organization where id = 权属单位编号) WHERE 权属单位名称 IS NULL;
+update  asset_object set 使用单位名称 = (select name from t_organization where id = 使用单位编号) WHERE 使用单位名称 IS NULL;
+update  asset_object set 维护部门名称 = (select name from t_department where id = 维护部门编号) WHERE 维护部门名称 IS NULL;       
+
+--导入生产厂商数据
+insert into t_enterprise
+  (id, create_date, name, update_date, type)
+  select sys_guid(), sysdate, name, sysdate, '2'
+    from (select distinct o.生产厂商 name
+            from asset_object o
+           where not exists (select 1
+                    from t_enterprise t
+                   where o.生产厂商 = t.name
+                     and t.type = '2') and o.生产厂商 is not null);
+
+--导入供应商数据
+insert into t_enterprise
+  (id, create_date, name, update_date, type)
+  select sys_guid(), sysdate, name, sysdate, '1'
+    from (select distinct o.供应商 name
+            from asset_object o
+           where not exists (select 1
+                    from t_enterprise t
+                   where o.供应商 = t.name
+                     and t.type = '1') and o.供应商 is not null);
+
+--导入单位数据
+insert into t_unit_master
+  (id,  name)
+  select sys_guid(), name
+    from (select distinct o.单位 name
+            from asset_object o
+           where not exists (select 1
+                    from t_unit_master t
+                   where o.单位 = t.name) and o.单位 is not null);
+
+--临时代码
+insert into t_project
+  (id,dispatch_no, project_name, project_type)
+  select sys_guid(),O.立项或可研批复文号, O.项目名称, '99'
+    from (SELECT O.立项或可研批复文号, O.项目名称
+            FROM asset_object_record1 O
+           where O.竣工移交资产类型 IN ('新增', '更新')
+             and not exists (select 1
+                    from t_project
+                   where O.立项或可研批复文号 = dispatch_no)) o
+   group by O.立项或可研批复文号, O.项目名称;
+
+
+
+--导入资产数据
+INSERT INTO T_ASSET
+  (ID,
+   CREATE_DATE,
+   REMARKS,
+   UPDATE_DATE,
+   ASSET_CODE,
+   COUNT,
+   EXPECTANCY_LIFE,
+   MADE_DATE,
+   MANUFACTURE_COUNTRY,
+   NAME,
+   TYPE,
+   USE_DATE,
+   USE_LIFE,
+   WARRANTY_PERIOD,
+   SUB_TYPE_CODE_ID,
+   MANUFACTURER_ID,
+   DETAIL_TYPE_CODE_ID,
+   UNIT_ID,
+   MAIN_TYPE_CODE_ID,
+   CONTRACT_ID,
+   PROJECT_ID,
+   APPROVAL_SCRAP_DATE,
+   ASSET_PIC,
+   COMPLETE_TRANS_ASSET_TYPE,
+   CONTRACT,
+   DETAIL_INSTALL_SITE,
+   OPERATE_PROJECT_ASSET,
+   OPERATE_PROJECT_ASSET_DATE,
+   OVERHAUL_RATE,
+   PROJECT_APP_DOC_NO,
+   PROJECT_NO,
+   SUPPLIER_ID,
+   VERIFY_STATE,
+   DATA_LIST,
+   EQUIPMENT_LIST,
+   OVERHAUL_FINAL_PRICE,
+   CONTRACT_PRICE,
+   DEPRECIATION_METHOD,
+   FACTORY_PRICE,
+   ORIGINAL_VALUE,
+   PROJECT_CONTRACT_NO,
+   OWNERSHIP_PER,
+   USE_PER,
+   LOCATION_CODE,
+   OPERATE_PROJECT_ASSET_ACCOUNT,ASSET_OWNER_INFO_ID,STATE_ID,PRICE_ID,
+   ASSET_CODE_TYPE)
+  SELECT SYS_GUID(),
+         O.创建时间,
+         O.备注,
+         O.修改时间,
+         O.资产编号,
+         O.数量,
+         O.预期使用寿命,
+         O.出厂日期,
+         O.产地,
+         O.资产名称,
+         O.规格型号,
+         O.供应日期,
+         O.设计使用年限,
+         O.保修期至,
+         (SELECT ID FROM T_ASSET_TYPE WHERE O.中类编码 = ALL_CODE),
+         (SELECT ID
+            FROM T_ENTERPRISE
+           WHERE TYPE = '2'
+             AND NAME = O.生产厂商),
+         (SELECT ID FROM T_ASSET_TYPE WHERE O.资产类型 = ALL_CODE),
+         (SELECT ID FROM T_UNIT_MASTER WHERE ID = O.单位),
+         (SELECT ID FROM T_ASSET_TYPE WHERE O.大类编码 = ALL_CODE),
+         (SELECT ID FROM T_CONTRACT WHERE O.项目合同编码 = CONTRACT_NO),
+	 (SELECT ID FROM T_PROJECT WHERE O.项目名称 = PROJECT_NAME) 
+         O.批准报废时间,
+         O.资产图片名称,
+         O.竣工移交资产类型,
+         O.项目合同编码,
+         O.安装地点,
+         O.项目资产标示,
+         to_date(O.资产交付日期,'yyyy-mm-dd'),
+        O.大修频次,
+         O.立项或可研批复文号,
+         O.项目编号,
+         (SELECT ID
+            FROM T_ENTERPRISE
+           WHERE TYPE = '1'
+             AND NAME = O.供应商),
+         '2',
+         O.资料及清单,
+         O.设备清单,
+         '',
+         O.合同价,
+         O.折旧方法,
+         O.出厂价,
+         O.原值,
+         O.项目合同编码,
+         '',
+         '',
+         O.铭牌张贴位置,
+         NULL,SYS_GUID(),SYS_GUID(),SYS_GUID(),
+         '1'
+     FROM ASSET_OBJECT_RECORD1 O
+    WHERE  not exists (select 1 from t_asset where asset_code = o.资产编号);
+
+--导入资产权属
+INSERT INTO T_ASSET_OWNER (ID,CREATE_DATE,UPDATE_DATE,REMARKS,GEGIN_USE_DATE,OWNER_,RECEIVE_DATE,STOP_USE_DATE,USER_,USER_ORG_CODE_ID,DEPARTMENT_CODE_ID,OWNER_ORG_CODE_ID,STATION_CODE_ID,
+LINE_CODE_ID)
+SELECT A.ASSET_OWNER_INFO_ID,A.CREATE_DATE,A.UPDATE_DATE,A.REMARKS,O.开始使用时间,O.权属负责人名称,O.移交时间,O.停止使用时间,O.使用负责人名称,
+(SELECT ID FROM T_ORGANIZATION WHERE O.使用单位编号 = CODE),
+(SELECT ID FROM T_DEPARTMENT WHERE O.维护部门编号 = CODE),
+(SELECT ID FROM T_ORGANIZATION WHERE O.权属单位编号 = CODE),
+(SELECT ID FROM T_STATION WHERE O.车站编码 = CODE AND O.线路编码 = LINE_ID),
+(SELECT ID FROM T_LINE WHERE O.线路编码 = CODE)
+FROM ASSET_OBJECT O,T_ASSET A
+    WHERE A.ASSET_CODE = O.资产编号 AND o.项目名称 in ('一号线', '二号线', '财务部集团生产性固定资产')
+         and to_char(O.创建时间, 'yyyymmdd') > '201502' ;
+
+--导入资产状态
+INSERT INTO T_ASSET_STATE
+  (ID, CREATE_DATE, REMARKS, UPDATE_DATE, ASSET_ID, STATE, USE_STATE,NAMEPLATE_SITE) 
+  SELECT A.STATE_ID,A.CREATE_DATE,A.REMARKS,A.UPDATE_DATE,A.ID,DECODE(O.当前使用状态,'使用','1','停用','2','报废','3','待报废','4','封存','5'),O.当前使用状态,
+O.铭牌张贴位置
+  FROM ASSET_OBJECT O, T_ASSET A WHERE A.ASSET_CODE = O.资产编号 AND o.项目名称 in
+  ('一号线', '二号线', '财务部集团生产性固定资产') and to_char
+  (O.创建时间, 'yyyymmdd') > '201502' ;
+
+--导入资产价值
+INSERT INTO T_ASSET_PRICE
+ (ID, CREATE_DATE, REMARKS, UPDATE_DATE, ACCUMULATED_DEPRECIATION, CONTRACT_PRICE, FACTORY_PRICE,
+  NET_VALUE,ORIGINAL_VALUE,DEPRECIATION_METHOD,ASSET_ID) 
+  SELECT A.PRICE_ID,A.CREATE_DATE,A.REMARKS,A.UPDATE_DATE,O.累计折旧,O.合同价,O.出厂价,
+  O.资产净值,O.原值,O.折旧方法,A.ID
+
+  FROM ASSET_OBJECT O, T_ASSET A WHERE A.ASSET_CODE = O.资产编号 AND o.项目名称 in
+  ('一号线', '二号线', '财务部集团生产性固定资产') and to_char
+  (O.创建时间, 'yyyymmdd') > '201502' ;
+
+
+--临时代码--begin--
+
+update t_asset
+   set SUPPLIER_ID =  (select t.id
+                            from asset_object o, t_enterprise t
+                           where o.供应商 = t.name
+                             and type = '1'
+                             and o.资产编号 = asset_code) where exists (select 1
+                            from asset_object o, t_enterprise t
+                           where o.供应商 = t.name
+                             and type = '1'
+                             and o.资产编号 = asset_code);
+
+update t_asset
+   set manufacturer_id =  (select t.id
+                            from asset_object o, t_enterprise t
+                           where o.生产厂商 = t.name
+                             and type = '2'
+                             and o.资产编号 = asset_code) where exists (select 1
+                            from asset_object o, t_enterprise t
+                           where o.生产厂商 = t.name
+                             and type = '2'
+                             and o.资产编号 = asset_code);
+
+--临时代码--end--
+
+--大修更新改造，初始-大修
+update t_asset t set  t.asset_code_type = '2'  where exists (select 1 from asset_object_record2 o where o.资产编号 = t.asset_code and o.竣工移交资产类型 = '初始'
+     and o.项目资产标示 = '大修' )  ;
+update t_asset t set  t.asset_code_type = '1'  where exists (select 1 from asset_object_record2 o where o.资产编号 = t.asset_code and o.竣工移交资产类型 = '新增'
+     and o.项目资产标示 = '改造' )  ;
+update t_asset t set  t.asset_code_type = '2'  where exists (select 1 from asset_object_record1 o where o.资产编号 = t.asset_code and o.竣工移交资产类型 = '新增'
+     and o.项目资产标示 = '大修' )  ;
+
+ 
+--导入资产履历
+INSERT INTO t_Asset_Record
+  (ID, PROJECT_NAME,  ASSET_TYPE, PROJECT_APP_NO, CREATE_DATE,UPDATE_DATE,ASSET_ID,FINISH_DATE,FINISH_PRICE) 
+  SELECT SYS_GUID(),O.项目名称,O.项目资产标示,O.立项或可研批复文号,A.CREATE_DATE,A.UPDATE_DATE,A.ID,A.OPERATE_PROJECT_ASSET_DATE,A.OPERATE_PROJECT_ASSET_ACCOUNT
+
+  FROM asset_object_record1 O, T_ASSET A WHERE A.ASSET_CODE = O.资产编号 AND o.竣工移交资产类型 IN ('初始','新增') AND o.项目资产标示 IN ('大修','改造') ;
